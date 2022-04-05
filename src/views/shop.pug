@@ -1,0 +1,23 @@
+extends _partials/layout
+
+block content
+  each item in items
+    .p-4.flex.flex-nowrap.items-center
+      p.font-medium.mr-4 !{item.amount}x
+      img(src=item.image).w-20.h-20.object-cover.rounded.drop-shadow-lg
+      p.font-medium.mx-4.grow !{item.name}
+      p.font.mx-4.w-20 !{item.price_net} € (Net)
+      p.font.mx-4.w-20 !{item.price_vat} € (VAT)
+      p.font-medium.mx-4.w-20 !{item.price_total} € (Total)
+
+  .border.mb-4
+  .p-4.flex.flex-col.justify-end.items-end.column
+    p.mx-4.mb-2 !{subtotal} € (Subtotal)
+    p.mx-4.mb-2 !{shipping} € (Shipping)
+    p.font-medium.mx-4.mb-6 !{total} € (Total)
+    //- TODO add Ivy Button.js & create session
+    button.rounded-full.bg-blue-500.px-4.py-2.text-neutral-50 Checkout with Ivy
+
+
+  
+

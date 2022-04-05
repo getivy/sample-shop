@@ -1,0 +1,30 @@
+{
+  "reference": "WIQN128SKDC22",
+  "items": [
+    {
+      "name": "Jeans",
+      "amount": 1,
+      "price_net": 58.82,
+      "price_vat": 11.17,
+      "price_total": 69.99,
+      "image": "https://images.unsplash.com/photo-1602293589930-45aad59ba3ab?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3687&q=80"
+    },
+    {
+      "name": "Socks",
+      "amount": 4,
+      "price_net": 12.6,
+      "price_vat": 2.39,
+      "price_total": 14.99,
+      "image": "https://images.unsplash.com/photo-1640025867572-f6b3a8410c81?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3464&q=80"
+    },
+    {
+      "name": "T-Shirt",
+      "amount": 2,
+      "price_net": 25.2,
+      "price_vat": 4.79,
+      "price_total": 29.99,
+      "image": "https://images.unsplash.com/photo-1581655353564-df123a1eb820?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"
+    }
+  ],
+  "shipping": 4.99
+}
