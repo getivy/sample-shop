@@ -1,5 +1,8 @@
 extends _partials/layout
 
+block scripts
+  script(src=cdnUrl + "/button.js")
+
 block content
   each item in items
     .p-4.flex.flex-nowrap.items-center
@@ -15,8 +18,7 @@ block content
     p.mx-4.mb-2 !{subtotal} € (Subtotal)
     p.mx-4.mb-2 !{shipping} € (Shipping)
     p.font-medium.mx-4.mb-6 !{total} € (Total)
-    //- TODO add Ivy Button.js & create session
-    button.rounded-full.bg-blue-500.px-4.py-2.text-neutral-50 Checkout with Ivy
+    button(style="visibility: hidden")#ivy-checkout-button.rounded-full.bg-blue-500.px-4.py-2.text-neutral-50 Checkout with Ivy
 
 
   

@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const cart = require('../cart.json')
+const config = require('../config')
 
 router.get('/callback/success', (req, res) => {
   // TODO get order details
@@ -29,12 +30,14 @@ router.get('/', (req, res) => {
       .toFixed(2)
   )
 
+  console.log('config.CDN_URL:', config.CDN_URL)
   res.render('shop', {
     title: 'Checkout - Cart',
     items: cart.items,
     subtotal,
     shipping: cart.shipping,
     total: subtotal + cart.shipping,
+    cdnUrl: config.CDN_URL,
   })
 })
 

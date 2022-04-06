@@ -20,7 +20,7 @@ server.use(cors({ origin: true }))
 server.use(compression({ threshold: 0 }))
 server.use(express.static(path.join(__dirname, 'assets')))
 
-server.use(webhookRoutes)
+server.use('/webhooks', webhookRoutes)
 server.use(routes)
 
 module.exports = async () => {
