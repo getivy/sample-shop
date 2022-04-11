@@ -30,7 +30,6 @@ router.get('/', (req, res) => {
       .toFixed(2)
   )
 
-  console.log('config.CDN_URL:', config.CDN_URL)
   res.render('shop', {
     title: 'Checkout - Cart',
     items: cart.items,
