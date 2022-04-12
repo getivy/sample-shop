@@ -2,6 +2,7 @@ extends _partials/layout
 
 block scripts
   script(src=cdnUrl + "/button.js")
+    
 
 block content
   each item in items
@@ -18,7 +19,9 @@ block content
     p.mx-4.mb-2 !{subtotal} € (Subtotal)
     p.mx-4.mb-2 !{shipping} € (Shipping)
     p.font-medium.mx-4.mb-6 !{total} € (Total)
-    button(style="visibility: hidden")#ivy-checkout-button.rounded-full.bg-blue-500.px-4.py-2.text-neutral-50 Checkout with Ivy
+    form(method="POST" action="/checkout") 
+      button(type="submit" style="visibility: hidden" data-cart-value="119.99" data-shop-category="0001" data-locale="de")#ivy-checkout-button.rounded-full.bg-blue-500.px-4.py-2.text-neutral-50 
+
 
 
   
