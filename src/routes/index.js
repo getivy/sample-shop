@@ -41,7 +41,7 @@ function getCartPrice() {
 
   return {
     subtotal,
-    subtotal_net: subtotalNet,
+    subtotalNet,
     shipping: cart.shipping,
     vat: subtotal - subtotalNet,
     shipping: cart.shipping,
@@ -61,9 +61,8 @@ router.get('/', (req, res) => {
 router.post('/checkout', async (req, res) => {
   const cartPrice = getCartPrice()
 
-  const session = await axios.post(
-    `${config.IVY_API_URL}/service/checkout/session/create`,
-    {
+  try {
+    const data = {
       referenceId: cart.reference,
       category: '0001',
       price: {
@@ -71,6 +70,7 @@ router.post('/checkout', async (req, res) => {
         vat: cartPrice.vat,
         shipping: cartPrice.shipping,
         total: cartPrice.total,
+        currency: 'EUR',
       },
       lineItems: cart.items.map(item => ({
         name: item.name,
@@ -79,15 +79,23 @@ router.post('/checkout', async (req, res) => {
         amount: item.price_total,
         image: item.image,
       })),
-    },
-    {
-      Headers: {
-        'X-Ivy-Api-Key': config.IVY_API_KEY,
-      },
     }
-  )
 
-  console.log('session:', session)
+    const { data: session } = await axios.post(
+      `${config.IVY_API_URL}/service/checkout/session/create`,
+      data,
+      {
+        headers: {
+          'X-Ivy-Api-Key': config.IVY_API_KEY,
+        },
+      }
+    )
+
+    console.log('session:', session)
+    res.redirect(session.redirectUrl)
+  } catch (err) {
+    console.error(err.response.data)
+  }
 })
 
 module.exports = router
