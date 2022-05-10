@@ -64,7 +64,7 @@ router.post('/checkout', async (req, res) => {
   try {
     const data = {
       referenceId: cart.reference,
-      category: '0001',
+      category: '5941',
       price: {
         totalNet: cartPrice.subtotalNet,
         vat: cartPrice.vat,
