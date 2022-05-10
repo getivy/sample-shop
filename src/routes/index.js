@@ -79,6 +79,12 @@ router.post('/checkout', async (req, res) => {
         amount: item.price_total,
         image: item.image,
       })),
+      billingAddress: {
+        country: 'DE',
+        line1: 'Hauptstr. 1',
+        zipCode: '88662',
+        city: 'Überlingen',
+      },
     }
 
     const { data: session } = await axios.post(
@@ -95,6 +101,7 @@ router.post('/checkout', async (req, res) => {
     res.redirect(session.redirectUrl)
   } catch (err) {
     console.error(err.response.data)
+    res.status(400).send(err.response.data.message)
   }
 })
 
