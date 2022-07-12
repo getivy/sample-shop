@@ -40,7 +40,9 @@ const shippingMethods = [
 ]
 
 router.post('/callback/quote', (req, res) => {
-  const response = {}
+  const response = {
+    currency: req.body.currency
+  }
 
   if(req.body.shipping) {
     response.shippingMethods = shippingMethods.filter(item => !!item.countries.includes(req.body.shipping.shippingAddress.country))
