@@ -4,6 +4,58 @@ const router = express.Router()
 const cart = require('../cart.json')
 const config = require('../config')
 
+
+const shippingMethods = [
+  {
+    price: 4.99,
+    name: "DHL",
+    countries: ['DE', 'GB'],
+    reference: "ref-id-1"
+  },
+  {
+    price: 2.99,
+    name: "Hermes",
+    countries: ['DE', 'GB'],
+    reference: "ref-id-2"
+  },
+  {
+    price: 0.99,
+    name: "ALI-Express",
+    countries: ['GB'],
+    reference: "ref-id-2"
+  },
+
+  {
+    price: 10,
+    name: "DHL - Express",
+    countries: ['DE'],
+    reference: "ref-id-3"
+  },
+  {
+    price: 3.99,
+    name: "UPS",
+    countries: ['DE', 'GB', 'NL', 'FR', 'GR'],
+    reference: "ref-id-4"
+  },
+]
+
+router.post('/callback/quote', (req, res) => {
+  const response = {}
+
+  if(req.body.shipping) {
+    response.shippingMethods = shippingMethods.filter(item => !!item.countries.includes(req.body.shipping.shippingAddress.country))
+  }
+
+  if(req.body.discount) {
+    response.discount = {
+      voucher: req.body.discount.voucher,
+      amount: Math.floor(Math.random() * 10) + 1
+    }
+  }
+
+  res.json(response)
+})
+
 router.get('/callback/success', (req, res) => {
   // TODO get order details
 
