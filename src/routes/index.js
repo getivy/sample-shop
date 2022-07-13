@@ -39,6 +39,21 @@ const shippingMethods = [
   },
 ]
 
+const vouchers = [
+  {
+    voucher: 'ABCD',
+    amount: 10
+  },
+  {
+    voucher: '50',
+    amount: 50
+  },
+  {
+    voucher: '100',
+    amount: 100
+  }
+]
+
 router.post('/callback/quote', (req, res) => {
   const response = {
     currency: req.body.currency
@@ -49,10 +64,7 @@ router.post('/callback/quote', (req, res) => {
   }
 
   if(req.body.discount) {
-    response.discount = {
-      voucher: req.body.discount.voucher,
-      amount: Math.floor(Math.random() * 10) + 1
-    }
+    response.discount = vouchers.find(voucher => voucher.voucher === req.body.discount.voucher)
   }
 
   res.json(response)
