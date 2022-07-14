@@ -78,8 +78,9 @@ router.post('/callback/quote', (req, res) => {
     response.discount = vouchers.find(voucher => voucher.voucher === req.body.discount.voucher)
   }
 
-  //TODO: return signed header
+  const expectedResponse = sign(response)
 
+  res.setHeader('X-Ivy-Signature', expectedResponse)
   res.json(response)
 })
 
