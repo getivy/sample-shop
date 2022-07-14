@@ -3,6 +3,7 @@ const axios = require('axios')
 const router = express.Router()
 const cart = require('../cart.json')
 const config = require('../config')
+const { sign } = require('../utils/sign')
 
 
 const shippingMethods = [
@@ -59,6 +60,16 @@ router.post('/callback/quote', (req, res) => {
     currency: req.body.currency
   }
 
+  const signature = req.get('X-Ivy-Signature')
+  const data = req.body
+
+  const expectedSignature = sign(data)
+
+  if (signature !== expectedSignature) throw new Error('invalid signature!')
+
+  console.log(data)
+  
+
   if(req.body.shipping) {
     response.shippingMethods = shippingMethods.filter(item => !!item.countries.includes(req.body.shipping.shippingAddress.country))
   }
@@ -66,6 +77,8 @@ router.post('/callback/quote', (req, res) => {
   if(req.body.discount) {
     response.discount = vouchers.find(voucher => voucher.voucher === req.body.discount.voucher)
   }
+
+  //TODO: return signed header
 
   res.json(response)
 })
