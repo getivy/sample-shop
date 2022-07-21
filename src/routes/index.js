@@ -128,9 +128,9 @@ function getCartPrice() {
     subtotal,
     subtotalNet,
     shipping: cart.shipping,
-    vat: subtotal - subtotalNet,
+    vat: parseFloat(subtotal - subtotalNet).toFixed(2),
     shipping: cart.shipping,
-    total: subtotal + cart.shipping,
+    total: parseFloat(subtotal + cart.shipping).toFixed(2),
   }
 }
 

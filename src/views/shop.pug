@@ -16,10 +16,12 @@ block content
 
   .border.mb-4
   .p-4.flex.flex-col.justify-end.items-end.column
-    p.mx-4.mb-2 !{subtotal} € (Subtotal)
+    p.mx-4.mb-2 !{subtotalNet} € (Subtotal)
+    p.mx-4.mb-2 !{shipping} € (Shipping)
+    p.mx-4.mb-2 !{vat} € (VAT)
     p.font-medium.mx-4.mb-6 !{total} € (Total)
     form(method="POST" action="/checkout") 
-      button(type="submit" style="visibility: hidden" data-cart-value="114.97" data-shop-category="5999" data-locale="de")#ivy-checkout-button.rounded-full.bg-blue-500.px-4.py-2.text-neutral-50 
+      button(type="submit" style="visibility: hidden" data-cart-value="119.97" data-shop-category="5999" data-locale="de")#ivy-checkout-button.rounded-full.bg-blue-500.px-4.py-2.text-neutral-50 
 
 
 
