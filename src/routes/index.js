@@ -148,6 +148,7 @@ router.post('/checkout', async (req, res) => {
 
   try {
     const data = {
+      express: true,
       referenceId: cart.reference,
       category: '5999',
       price: {
