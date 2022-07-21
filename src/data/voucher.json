@@ -1,0 +1,14 @@
+[
+  {
+    "voucher": "ABCD",
+    "amount": 10
+  },
+  {
+    "voucher": "50",
+    "amount": 50
+  },
+  {
+    "voucher": "100",
+    "amount": 100
+  }
+]

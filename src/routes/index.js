@@ -1,64 +1,11 @@
 const express = require('express')
 const axios = require('axios')
 const router = express.Router()
-const cart = require('../cart.json')
 const config = require('../config')
 const { sign } = require('../utils/sign')
-
-
-const shippingMethods = [
-  {
-    price: 4.99,
-    name: "DHL",
-    countries: ['DE', 'GB'],
-    reference: "ref-id-1",
-    timeFrame: "4-5 Days"
-  },
-  {
-    price: 2.99,
-    name: "Hermes",
-    countries: ['DE', 'GB'],
-    reference: "ref-id-2",
-    timeFrame: "4-5 Days"
-  },
-  {
-    price: 0.99,
-    name: "ALI-Express",
-    countries: ['GB'],
-    reference: "ref-id-2",
-    timeFrame: "1 Day"
-  },
-
-  {
-    price: 10,
-    name: "DHL - Express",
-    countries: ['DE'],
-    reference: "ref-id-3",
-    timeFrame: "2 Days"
-  },
-  {
-    price: 3.99,
-    name: "UPS",
-    countries: ['DE', 'GB', 'NL', 'FR', 'GR'],
-    reference: "ref-id-4",
-    timeFrame: "5-7 Days"
-  },
-]
-
-const vouchers = [
-  {
-    voucher: 'ABCD',
-    amount: 10
-  },
-  {
-    voucher: '50',
-    amount: 50
-  },
-  {
-    voucher: '100',
-    amount: 100
-  }
-]
+const shippingMethods = require('../data/shipping.json')
+const vouchers = require('../data/voucher.json')
+const cart = require('../data/cart.json')
 
 router.post('/callback/quote', (req, res) => {
   const response = {
