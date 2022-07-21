@@ -1,9 +1,8 @@
 const { createHmac } = require('crypto')
+const config = require('../config')
 
 function sign(data) {
-  const signingSecret =
-    process.env.IVY_WEBHOOK_SIGNING_SECRET || '0a319afc-76cd-4720-b2a2-f182fb05df5b'
-  const hmac = createHmac('sha256', signingSecret)
+  const hmac = createHmac('sha256', config.IVY_WEBHOOK_SIGNING_SECRET)
   hmac.update(JSON.stringify(data))
   return hmac.digest('hex')
 }
