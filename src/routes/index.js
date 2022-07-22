@@ -93,10 +93,12 @@ router.get('/', (req, res) => {
 router.post('/checkout', async (req, res) => {
   const cartPrice = getCartPrice()
 
+  const generateReferenceId = (Math.random().toString(36)+'00000000000000000').slice(2, 13)
+
   try {
     const data = {
       express: true,
-      referenceId: cart.reference,
+      referenceId: generateReferenceId,
       category: '5999',
       price: {
         totalNet: cartPrice.subtotalNet,
