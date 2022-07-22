@@ -87,6 +87,7 @@ router.get('/', (req, res) => {
     items: cart.items,
     ...getCartPrice(),
     cdnUrl: config.IVY_CDN_URL,
+    version: process.env.npm_package_version
   })
 })
 
