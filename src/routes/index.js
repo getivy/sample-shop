@@ -98,7 +98,7 @@ router.post('/checkout', async (req, res) => {
 
   try {
     const data = {
-      express: true,
+      express: !!req.query.express,
       referenceId: generateReferenceId,
       category: '5999',
       price: {
