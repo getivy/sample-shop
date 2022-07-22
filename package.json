@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon -r dotenv/config dev/index.js --watch src/"
+    "dev": "nodemon -r dotenv/config src/index.js --watch src/",
+    "start": "node src/index.js"
   },
   "repository": {
     "type": "git",
