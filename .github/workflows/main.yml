@@ -15,3 +15,6 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "ivy-dev-sample-shop"
           heroku_email: ${{secrets.HEROKU_EMAIL}}
+          region: eu
+          stack: heroku-22
+          buildpack: heroku/nodejs
