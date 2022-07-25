@@ -95,7 +95,7 @@ router.post('/checkout', async (req, res) => {
   const cartPrice = getCartPrice()
 
   const generateReferenceId = (Math.random().toString(36)+'00000000000000000').slice(2, 13)
-console.log(config)
+
   try {
     const data = {
       express: !!req.query.express,
