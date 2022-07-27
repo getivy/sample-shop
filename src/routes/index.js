@@ -134,7 +134,13 @@ router.post('/checkout', async (req, res) => {
     )
 
     console.log('session:', session)
-    res.redirect(session.redirectUrl)
+    if(!!req.query.tab) {
+      res.json({
+        url: session.redirectUrl
+      })  
+    } else {
+      res.redirect(session.redirectUrl)
+    }
   } catch (err) {
     console.error(err.response.data)
     res.status(400).send(err.response.data.message)
