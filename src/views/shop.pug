@@ -2,7 +2,6 @@ extends _partials/layout
 
 block scripts
   script(src=cdnUrl + "/button.js")
-    
 
 block content
   each item in items
@@ -21,10 +20,22 @@ block content
     p.mx-4.mb-2 !{vat} € (VAT)
     p.font-medium.mx-4.mb-6 !{total} € (Total)
     form(method="POST" action="/checkout?express=true") 
-      button(type="submit" style="visibility: hidden" data-cart-value="119.97" data-shop-category="5999" data-locale="de")#ivy-checkout-button.rounded-full.bg-blue-500.px-4.py-2.text-neutral-50 
+      button(type="submit" style="visibility: hidden" data-cart-value="119.97" data-shop-category="5999" data-locale="de").ivy-checkout-button.rounded-full.bg-blue-500.px-4.py-2 
 
     form(method="POST" action="/checkout")
-      button(type="submit")#ivy-checkout-button.rounded-full.bg-blue-500.mt-4 Normal Checkout 
+      button(type="submit").rounded-full.bg-blue-500.px-4.py-2.mt-4  Normal Checkout
+
+    script.
+      function onClick() { 
+        fetch('/checkout?tab=true', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+          window.open(data.url, '_blank', 'width=500,height=500')
+        })
+       }
+    div
+      span Open in new Window:
+      button(type='button' onclick='onClick()' style="visibility: hidden" data-cart-value="119.97" data-shop-category="5999" data-locale="de").ivy-checkout-button.rounded-full.bg-blue-500.mt-4
 
   p Version: #{version}
 
