@@ -95,6 +95,7 @@ router.post('/checkout', async (req, res) => {
 
   try {
     const data = {
+      express: false,
       referenceId: generateReferenceId,
       category: '5999',
       price: {
@@ -122,7 +123,7 @@ router.post('/checkout', async (req, res) => {
     console.log('begin request')
 
     const { data: session } = await axios.post(
-      `https://api.stage.getivy.de/service/checkout/session/create`,
+      `${config.IVY_API_URL}/service/checkout/session/create`,
       data,
       {
         headers: {
