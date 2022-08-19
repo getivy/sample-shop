@@ -2,28 +2,28 @@
   "reference": "WIQN128SKDC22",
   "items": [
     {
-      "name": "Jeans",
+      "name": "Bits & Pretzels T-Shirt “Bavarian Robot”",
       "amount": 1,
-      "price_net": 58.82,
-      "price_vat": 11.17,
-      "price_total": 69.99,
-      "image": "https://images.unsplash.com/photo-1602293589930-45aad59ba3ab?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3687&q=80"
+      "price_net": 38.82,
+      "price_vat": 7.38,
+      "price_total": 46.2,
+      "image": "https://uploads-ssl.webflow.com/625ef80882b5db09f9b9fcf2/62ff55ff1030df9a33401e7f_image%201.png"
     },
     {
-      "name": "Socks",
-      "amount": 4,
+      "name": "Bits & Pretzels “Base cap”",
+      "amount": 3,
       "price_net": 12.6,
       "price_vat": 2.39,
       "price_total": 14.99,
-      "image": "https://images.unsplash.com/photo-1640025867572-f6b3a8410c81?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3464&q=80"
+      "image": "https://uploads-ssl.webflow.com/625ef80882b5db09f9b9fcf2/62ff55fe5552a6980595cf3e_Group%201.png"
     },
     {
-      "name": "T-Shirt",
+      "name": "Bits & Pretzels T-Shirt “Screen Face”",
       "amount": 2,
       "price_net": 25.2,
       "price_vat": 4.79,
       "price_total": 29.99,
-      "image": "https://images.unsplash.com/photo-1581655353564-df123a1eb820?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"
+      "image": "https://uploads-ssl.webflow.com/625ef80882b5db09f9b9fcf2/62ff55ff1030dfc396401e7e_image%202.png"
     }
   ],
   "shipping": 5

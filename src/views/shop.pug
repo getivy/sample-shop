@@ -9,36 +9,41 @@ block content
       p.font-medium.mr-4 !{item.amount}x
       img(src=item.image).w-20.h-20.object-cover.rounded.drop-shadow-lg
       p.font-medium.mx-4.grow !{item.name}
-      p.font.mx-4.w-20 !{item.price_net} € (Net)
-      p.font.mx-4.w-20 !{item.price_vat} € (VAT)
-      p.font-medium.mx-4.w-20 !{item.price_total} € (Total)
+      p.font-medium.mx-4.w-20 !{item.price_total} €
 
   .border.mb-4
   .p-4.flex.flex-col.justify-end.items-end.column
-    p.mx-4.mb-2 !{subtotalNet} € (Subtotal)
-    p.mx-4.mb-2 !{shipping} € (Shipping)
-    p.mx-4.mb-2 !{vat} € (VAT)
-    p.font-medium.mx-4.mb-6 !{total} € (Total)
-    form(method="POST" action="/checkout?express=true") 
-      button(type="submit" style="visibility: hidden" data-cart-value="119.97" data-shop-category="5999" data-locale="de").ivy-checkout-button.rounded-full.bg-blue-500.px-4.py-2 
+    p.mx-4.mb-2 Subtotal 91.18 € 
+    p.mx-4.mb-2 Shipping !{shipping} €
+    p.font-medium.mx-4.mb-6 Total !{total} € 
 
     form(method="POST" action="/checkout")
-      button(type="submit").rounded-full.bg-blue-500.px-4.py-2.mt-4  Normal Checkout
+      button(type="submit" style={'background': '#79B061;'}).ivy-checkout-button.mt-4
 
     script.
       function onClick() { 
-        fetch('/checkout?tab=true', { method: 'POST' })
-        .then(response => response.json())
-        .then(data => {
-          window.open(data.url, '_blank', 'width=500,height=500')
-        })
+        //fetch('/checkout', { method: 'POST' })
+        //.then(response => response.json())
+        //.then(
+        createPopupWin('http://localhost:4200/', 'Ivy Checkout', 490, 550)
        }
-    div
-      span Open in new Window:
-      button(type='button' onclick='onClick()' style="visibility: hidden" data-cart-value="119.97" data-shop-category="5999" data-locale="de").ivy-checkout-button.rounded-full.bg-blue-500.mt-4
 
-  p Version: #{version}
+    //div
+    //  button(type='button' onclick='onClick()' data-cart-value="119.97" data-shop-category="5999" data-locale="en" style={'background': '#79B061;', 'margin-bottom': '200'}).ivy-checkout-button.mt-4
 
+    script.
+      function createPopupWin(pageURL, pageTitle,
+                      popupWinWidth, popupWinHeight) {
+              var left = (screen.width - popupWinWidth) / 2;
+              var top = (screen.height - popupWinHeight) / 3;
+              
+              var myWindow = window.open(pageURL, pageTitle,
+                      'resizable=yes, width=' + popupWinWidth
+                      + ', height=' + popupWinHeight + ', top='
+                      + top + ', left=' + left);
+      }
 
-  
+  div
+    img.ui.mini.image(src='https://upload.wikimedia.org/wikipedia/commons/0/09/Bits_%26_Pretzels_logo.svg' style={'margin-top': '0px'}).w-20.h-20
+    p(style={'margin-top': '0px', 'margin-bottom': '50px', 'font': '10px'}) Ivy is official payment partner at the Bits n Pretzels. Check us out at the event.
 

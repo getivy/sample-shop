@@ -18,10 +18,7 @@ router.post('/callback/quote', (req, res) => {
   const expectedSignature = sign(data)
 
   if (signature !== expectedSignature) throw new Error('invalid signature!')
-
-  console.log(data)
   
-
   if(req.body.shipping) {
     response.shippingMethods = shippingMethods.filter(item => !!item.countries.includes(req.body.shipping.shippingAddress.country))
   }
@@ -83,7 +80,7 @@ function getCartPrice() {
 
 router.get('/', (req, res) => {
   res.render('shop', {
-    title: 'Checkout - Cart',
+    title: 'Ivy Demo Store',
     items: cart.items,
     ...getCartPrice(),
     cdnUrl: config.IVY_CDN_URL,
@@ -98,7 +95,6 @@ router.post('/checkout', async (req, res) => {
 
   try {
     const data = {
-      express: !!req.query.express,
       referenceId: generateReferenceId,
       category: '5999',
       price: {
@@ -123,8 +119,10 @@ router.post('/checkout', async (req, res) => {
       },
     }
 
+    console.log('begin request')
+
     const { data: session } = await axios.post(
-      `${config.IVY_API_URL}/service/checkout/session/create`,
+      `https://api.stage.getivy.de/service/checkout/session/create`,
       data,
       {
         headers: {
