@@ -1,7 +1,8 @@
 extends _partials/layout
 
 block scripts
-  script(src=cdnUrl + "/button.js")
+  //script(src=cdnUrl + "/button.js")
+  script(src="http://localhost:9293/button.js")
 
 block content
   each item in items
@@ -17,8 +18,22 @@ block content
     p.mx-4.mb-2 Shipping !{shipping} €
     p.font-medium.mx-4.mb-6 Total !{total} € 
 
-    form(method="POST" action="/checkout")
-      button(type="submit" data-cart-value="119.97" data-shop-category="5999" data-locale="en" style={'background': '#79B061;', 'margin-bottom': '6px','margin-right': '50px'}).ivy-checkout-button
+    //form(method="POST" action="/checkout")
+    //  button(type="submit" onClick='onClick()' data-cart-value="119.97" data-shop-category="5999" data-locale="en" style={'background': '#79B061;', 'margin-bottom': '6px','margin-right': '50px'}).ivy-checkout-button
+
+    script.
+      function onClick() { 
+        fetch('/checkout?tab=true', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+          startIvyCheckout(data.url , 'popup')
+        })
+      }
+
+    div 
+      button(type="button" onClick='onClick()' data-cart-value="119.97" data-shop-category="5999" data-locale="en" style={'background': '#79B061;', 'margin-bottom': '6px','margin-right': '50px'}).ivy-checkout-button
+  
   div
     img.ui.mini.image(src='https://upload.wikimedia.org/wikipedia/commons/0/09/Bits_%26_Pretzels_logo.svg' style={'margin-top': '0px', 'margin-left': '10px', 'margin-right': '10px'}).w-20.h-20
     p(style={'margin-top': '0px', 'margin-bottom': '50px', 'font': '10px', 'margin-left': '10px', 'margin-right': '10px'}) Ivy is official payment partner at the Bits'n'Pretzels. Check us out at the event.
+
