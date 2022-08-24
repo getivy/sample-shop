@@ -10,8 +10,7 @@ block content
       img(src=item.image).w-20.h-20.object-cover.rounded.drop-shadow-lg
       p.font-medium.mx-4.grow !{item.name}
       p.font-medium.mx-4.w-20 !{item.price_total} €
-
-  .border.mb-4
+  hr.mb-4
   .p-4.flex.flex-col.justify-end.items-end.column
     p.mx-4.mb-2 Subtotal 91.18 € 
     p.mx-4.mb-2 Shipping !{shipping} €
@@ -27,7 +26,7 @@ block content
       }
 
     div 
-      button(type="button" onClick='onClick()' data-cart-value="119.97" data-shop-category="5999" data-locale="en" style={'background': '#79B061;', 'margin-bottom': '6px','margin-right': '50px'}).ivy-checkout-button
+      button(type="button" onClick='onClick()' data-locale="en").ivy-checkout-button
   
   div
     img.ui.mini.image(src='https://upload.wikimedia.org/wikipedia/commons/0/09/Bits_%26_Pretzels_logo.svg' style={'margin-top': '0px', 'margin-left': '10px', 'margin-right': '10px'}).w-20.h-20
