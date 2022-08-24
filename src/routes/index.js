@@ -78,6 +78,16 @@ function getCartPrice() {
   }
 }
 
+router.get('/all-buttons', (req, res) => {
+  res.render('shop-with-all-buttons', {
+    title: 'Ivy Demo Store',
+    items: cart.items,
+    ...getCartPrice(),
+    cdnUrl: config.IVY_CDN_URL,
+    version: process.env.npm_package_version
+  })
+})
+
 router.get('/', (req, res) => {
   res.render('shop', {
     title: 'Ivy Demo Store',
@@ -95,7 +105,7 @@ router.post('/checkout', async (req, res) => {
 
   try {
     const data = {
-      express: false,
+      express: !!req.query.express,
       referenceId: generateReferenceId,
       category: '5999',
       price: {

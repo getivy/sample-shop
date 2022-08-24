@@ -17,9 +17,6 @@ block content
     p.mx-4.mb-2 Shipping !{shipping} €
     p.font-medium.mx-4.mb-6 Total !{total} € 
 
-    //form(method="POST" action="/checkout")
-    //  button(type="submit" onClick='onClick()' data-cart-value="119.97" data-shop-category="5999" data-locale="en" style={'background': '#79B061;', 'margin-bottom': '6px','margin-right': '50px'}).ivy-checkout-button
-
     script.
       function onClick() { 
         fetch('/checkout?tab=true', { method: 'POST' })
