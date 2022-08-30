@@ -20,12 +20,12 @@ block content
     div
       form(method="POST" action="/checkout?express=true") 
         span Express Checkout:
-        button(type="submit" data-locale="en").ivy-checkout-button
+        button(type="submit" data-locale="en" data-position="above" data-cart-value="50.99").ivy-checkout-button
 
     div.my-10
       form(method="POST" action="/checkout")
         span Normal Checkout:
-        button(type="submit" data-locale="en").ivy-checkout-button
+        button(type="submit" data-locale="en" data-position="below" data-cart-value="101").ivy-checkout-button
 
     script.
       function onClick() { 
@@ -35,6 +35,7 @@ block content
           startIvyCheckout(data.url, "popup")
         })
        }
+    
     div
-      span Modal dialog (redirect on mobile):
-      button(type="button" onclick='onClick()' data-locale="en").ivy-checkout-button
+      span Modal dialog:
+      button(type="button" onclick='onClick()' data-cart-value="200" data-locale="en").ivy-checkout-button
