@@ -34,6 +34,10 @@ router.post('/callback/quote', (req, res) => {
 })
 
 router.get('/callback/success', (req, res) => {
+  res.redirect('/success')
+})
+
+router.get('/success', (req, res) => {
   // TODO get order details
 
   res.render('success', {
