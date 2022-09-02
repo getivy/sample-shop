@@ -28,7 +28,7 @@ router.post('/callback/complete', (req, res) => {
 
   const response = {
     result: hasSameItems ? 'approved' : 'declined',
-    redirectUrl: '',
+    redirectUrl: `${req.protocol}://${req.headers.host}/callback/success`,
   }
 
   const expectedResponse = sign(response)
@@ -140,6 +140,7 @@ router.post('/checkout', async (req, res) => {
 
   try {
     const data = {
+      verificationToken: 'TEST',
       express: req.query.express,
       referenceId: generateReferenceId,
       category: '5999',
