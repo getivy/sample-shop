@@ -17,19 +17,9 @@ block content
     p.mx-4.mb-2 Shipping !{shipping} €
     p.font-medium.mx-4.mb-6 Total !{total} € 
 
-    div
-      form(method="POST" action="/checkout?express=true") 
-        span Express Checkout:
-        button(type="submit" data-locale="en" data-position="above" data-cart-value="50.99").ivy-checkout-button
-
-    div.my-10
-      form(method="POST" action="/checkout")
-        span Normal Checkout:
-        button(type="submit" data-locale="en" data-position="below" data-cart-value="101").ivy-checkout-button
-
     script.
-      function onClick() { 
-        fetch('/checkout?tab=true', { method: 'POST' })
+      function onClick(express = false, broken = false) { 
+        fetch(`/checkout?express=${express}&${broken ? 'broken=true' : ''}`, { method: 'POST' })
         .then(response => response.json())
         .then(data => {
           startIvyCheckout(data.url, "popup")
@@ -37,5 +27,13 @@ block content
        }
     
     div
-      span Modal dialog:
-      button(type="button" onclick='onClick()' data-cart-value="200" data-locale="en").ivy-checkout-button
+      span Express Checkout:
+      button(type="button" onclick='onClick(true)' data-cart-value="200" data-locale="en" data-position="above").ivy-checkout-button
+
+    div.my-10
+      span Normal Checkout:
+      button(type="button" onclick='onClick(false)' data-cart-value="200" data-locale="de").ivy-checkout-button
+
+    div
+      span Express: Invalid Card Checkout
+      button(type="button" onclick='onClick(true, true)' data-cart-value="200" data-locale="nl").ivy-checkout-button
