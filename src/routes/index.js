@@ -27,7 +27,6 @@ router.post('/callback/complete', (req, res) => {
   })
 
   const response = {
-    result: hasSameItems ? 'approved' : 'declined',
     redirectUrl: `${req.protocol}://${req.headers.host}/callback/success`,
   }
 
