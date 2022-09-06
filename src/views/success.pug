@@ -3,5 +3,7 @@ extends _partials/layout
 block content
   .flex.flex-col.items-center
     img(src="/check.svg").w-24.h-24
-    p.text-xl.font-medium Order #!{orderId} confirmed!
-    p.mx-4.mb-2 Thank you for your order! We will ship your order shortly.
+    p.text-xl.font-medium Demo Order #!{orderId} succeeded!
+    p.mx-4.mb-2 This was a Demo Order, no money will be booked from your account!
+    a(href="/")
+      button.rounded-full.bg-blue-500.px-4.py-2.text-neutral-50 Return to Cart
