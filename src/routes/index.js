@@ -33,6 +33,7 @@ router.post('/callback/complete', (req, res) => {
   const expectedResponse = sign(response)
 
   if (!hasSameItems) {
+    console.log('/callback/complete: Failed, cart could not been validated')
     res.status(400)
   }
 
@@ -140,6 +141,7 @@ router.post('/checkout', async (req, res) => {
   try {
     const data = {
       verificationToken: 'TEST',
+      plugin: req.query.plugin,
       express: req.query.express,
       referenceId: generateReferenceId,
       category: '5999',
@@ -156,7 +158,7 @@ router.post('/checkout', async (req, res) => {
         singleVat: item.price_vat,
         amount: item.price_total,
         image: item.image,
-        quantity: req.query.broken ? 100 : item.amount,
+        quantity: req.query.broken === 'true' ? 100 : item.amount,
       })),
       billingAddress: {
         country: 'DE',

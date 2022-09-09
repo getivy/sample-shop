@@ -18,8 +18,8 @@ block content
     p.font-medium.mx-4.mb-6 Total !{total} € 
 
     script.
-      function onClick(express = false, broken = false) { 
-        fetch(`/checkout?express=${express}&${broken ? 'broken=true' : ''}`, { method: 'POST' })
+      function onClick(express = false, broken = false, plugin = '') { 
+        fetch(`/checkout?plugin=${plugin}&express=${express}&${broken ? 'broken=true' : ''}`, { method: 'POST' })
         .then(response => response.json())
         .then(data => {
           startIvyCheckout(data.url, "popup")
@@ -30,9 +30,13 @@ block content
       span Express Checkout:
       button(type="button" onclick='onClick(true)' data-cart-value="200" data-locale="en" data-position="above").ivy-checkout-button
 
-    div.my-10
+    div
       span Normal Checkout:
       button(type="button" onclick='onClick(false)' data-cart-value="200" data-locale="de").ivy-checkout-button
+
+    div
+      span Express with plugin SW6-1.1.6:
+      button(type="button" onclick='onClick(true, false, "sw6-1.1.6")' data-cart-value="200" data-locale="de").ivy-checkout-button
 
     div
       span Express: Invalid Card Checkout
