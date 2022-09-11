@@ -6,6 +6,7 @@ const { sign } = require('../utils/sign')
 const shippingMethods = require('../data/shipping.json')
 const vouchers = require('../data/voucher.json')
 const cart = require('../data/cart.json')
+const bits_cart = require('../data/bits-cart.json')
 
 router.post('/callback/complete', (req, res) => {
   const signature = req.get('X-Ivy-Signature')
@@ -184,6 +185,98 @@ router.post('/checkout', async (req, res) => {
     res.json({
       url: session.redirectUrl,
     })
+  } catch (err) {
+    console.error(err.response.data)
+    res.status(400).send(err.response.data.message)
+  }
+})
+
+router.get('/qr-bits-caps', async (req, res) => {
+  res.render('shop-bits-cap', {
+    title: 'Bits Ivy Store',
+    item: bits_cart,
+    cdnUrl: config.IVY_CDN_URL,
+    version: process.env.npm_package_version,
+  })
+})
+
+router.get('/sold-out', async (req, res) => {
+  res.render('shop-bits-sold-out', {
+    title: 'Bits Ivy Store',
+  })
+})
+
+router.get('/bits-success', async (req, res) => {
+  res.render('shop-bits-success', {
+    title: 'Bits Ivy Store',
+  })
+})
+
+router.get('/bits-failure', async (req, res) => {
+  res.render('shop-bits-failure', {
+    title: 'Bits Ivy Store',
+  })
+})
+
+router.post('/checkout-bits', async (req, res) => {
+
+  const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
+
+  try {
+    const data = {
+      referenceId: generateReferenceId,
+      category: '5999',
+      price: {
+        totalNet: bits_cart.price_net,
+        vat: bits_cart.price_vat,
+        shipping: 0,
+        total: bits_cart.price_total,
+        currency: 'EUR',
+      },
+      lineItems: [
+        {
+          name: bits_cart.name,
+          singleNet: bits_cart.price_net,
+          singleVat: bits_cart.price_vat,
+          amount: bits_cart.amount,
+          image: bits_cart.image,
+          quantity: bits_cart.quantity,
+        }
+      ],
+      billingAddress: {
+        country: 'DE',
+        line1: 'Bits & Pretzels',
+        zipCode: '80469',
+        city: 'München',
+      },
+      metadata: {
+        "event": "bits",
+      }
+    }
+
+    const { data: response } = await axios.post(
+      `${config.IVY_API_URL}/service/checkout/session/create`,
+      data,
+      {
+        headers: {
+          'X-Ivy-Api-Key': config.IVY_API_KEY,
+        },
+      }
+    )
+    console.log(response.bitsSoldOut)
+
+    if (response.bitsSoldOut !== undefined) {
+      res.json({
+        soldOut: true,
+      })
+    }
+    else {
+      res.json({
+        soldOut: false,
+        url: response.redirectUrl,
+      })
+    }
+
   } catch (err) {
     console.error(err.response.data)
     res.status(400).send(err.response.data.message)

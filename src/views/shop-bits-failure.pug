@@ -1,0 +1,9 @@
+extends _partials/layout
+
+block content
+  .flex.flex-col.items-center
+    img(src="/check.svg").w-24.h-24
+    p.text-xl.font-medium Your order was not successful.
+    p.mx-4.mb-2 Feel free to still check us out at xx
+    a(href="/")
+      button.rounded-full.bg-blue-500.px-4.py-2.text-neutral-50 Try again!

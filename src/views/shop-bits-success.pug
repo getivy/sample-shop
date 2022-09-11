@@ -1,0 +1,9 @@
+extends _partials/layout
+
+block content
+  .flex.flex-col.items-center
+    img(src="/check.svg").w-24.h-24
+    p.text-xl.font-medium Your order succeeded!
+    p.mx-4.mb-2 Come collect your cap at x
+    a(href="/")
+      button.rounded-full.bg-blue-500.px-4.py-2.text-neutral-50 Get another one!
