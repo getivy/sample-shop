@@ -191,7 +191,7 @@ router.post('/checkout', async (req, res) => {
   }
 })
 
-router.get('/qr-bits-caps', async (req, res) => {
+router.get('/qr-checkout', async (req, res) => {
   res.render('shop-bits-cap', {
     title: 'Bits Ivy Store',
     item: bits_cart,
