@@ -18,7 +18,7 @@ block content
 
     script.
       function onClick() { 
-        fetch('/checkout?tab=true', { method: 'POST' })
+        fetch('/checkout?express=true', { method: 'POST' })
         .then(response => response.json())
         .then(data => {
           startIvyCheckout(data.url , 'popup')
