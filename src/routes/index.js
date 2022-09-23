@@ -199,19 +199,19 @@ router.get('/qr-checkout', async (req, res) => {
   })
 })
 
-router.get('/sold-out', async (req, res) => {
+router.get('/sold-out', (req, res) => {
   res.render('shop-bits-sold-out', {
     title: 'Bits Ivy Store',
   })
 })
 
-router.get('/bits-success', async (req, res) => {
+router.get('/bits-success', (req, res) => {
   res.render('shop-bits-success', {
     title: 'Bits Ivy Store',
   })
 })
 
-router.get('/bits-failure', async (req, res) => {
+router.get('/bits-failure', (req, res) => {
   res.render('shop-bits-failure', {
     title: 'Bits Ivy Store',
   })
