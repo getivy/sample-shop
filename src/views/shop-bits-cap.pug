@@ -1,6 +1,6 @@
 doctype html
 head
-  title Ivy Bits Store
+  title Bits & Pretzels
   meta(charset='UTF-8')
   meta(http-equiv='X-UA-Compatible' content='IE=edge')
   meta(name='viewport' content='width=device-width, initial-scale=1.0')
@@ -17,12 +17,12 @@ head
   block scripts
     script(src=cdnUrl + "/button.js")
 body.container.pt-10.font-light.mx-auto.max-w-4xl
-  h1.text-3xl.font-medium.mb-3.text-center #{title}
+  //h1(style={'color': '#79B061'}).text-3xl.font-medium.mb-3.text-center #{title}
 
-  .p-4.flex.justify-center
-    img(src=item.image).w-80.h-80.object-cover.rounded
-  .p-4.flex.justify-center
-    p.font-medium Total !{item.price_total} € 
+  .p.flex.justify-center
+    img(src=item.image).w-80.h-80.rounded
+  .p.flex.justify-center
+    //p(style={'color': '#79B061'}).font-medium One Cap - Total !{item.price_total} € 
 
     script.
       function move() {
@@ -46,5 +46,3 @@ body.container.pt-10.font-light.mx-auto.max-w-4xl
   .p-4.flex.justify-center
     button.justify-center(type="button" onClick='onClick()' data-locale="en" data-position="above").ivy-checkout-button
   
-  div
-    img.ui.mini.image.flex.justify-center(src='https://upload.wikimedia.org/wikipedia/commons/0/09/Bits_%26_Pretzels_logo.svg' style={'margin-top': '0px', 'margin-left': '10px', 'margin-right': '10px'}).w-20.h-20

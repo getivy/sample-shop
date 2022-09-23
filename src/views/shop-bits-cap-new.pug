@@ -1,0 +1,43 @@
+doctype html
+head
+  title Ivy Bits Store - #{title}
+  meta(charset='UTF-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  script(src='https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp')
+  script.
+    tailwind.config = {
+      corePlugins: {
+        preflight: false,
+      }
+    }
+  script.
+      function onClick() { 
+        fetch('/checkout-bits', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+          if (data.soldOut === true) {
+            move()
+          }
+          else {
+            startIvyCheckout(data.url , 'popup')
+          }
+        })
+      }
+  link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
+  link(href='https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap' rel='stylesheet')
+  link(rel="stylesheet", href="/style.css")
+  block scripts
+    script(src=cdnUrl + "/button.js")
+body.m-0.p-0(style="background-color:#FFF9E4")
+  div.flex.flex-col.items-center
+    div
+      img.relative.object-contain.w-full.h-auto(style="bottom: -4vh" src="https://uploads-ssl.webflow.com/625ef80882b5db09f9b9fcf2/632e0790396302a10f38aee1_Group%20252.png").w-80.h-80.rounded
+    div
+      .p-4.flex.justify-center
+        button.justify-center(type="button" onClick='onClick()' data-locale="en" data-position="above" style={'margin-bottom': '100px', 'top': '50px'}).ivy-checkout-button
+  div.flex.flex-col.items-center
+    img.object-contain.w-full.h-auto(src="https://uploads-ssl.webflow.com/625ef80882b5db09f9b9fcf2/632e024dedcee061281042db_Boden%202.png")
+
+  div(style={'float': 'right'})
+    img.ui.mini.image(src='https://upload.wikimedia.org/wikipedia/commons/0/09/Bits_%26_Pretzels_logo.svg' style={'margin-top': '0px', 'margin-left': '10px', 'margin-right': '10px'}).w-20.h-20

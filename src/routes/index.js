@@ -191,8 +191,8 @@ router.post('/checkout', async (req, res) => {
 })
 
 router.get('/qr-checkout', async (req, res) => {
-  res.render('shop-bits-cap', {
-    title: 'Bits Ivy Store',
+  res.render('shop-bits-cap-new', {
+    title: 'Bits x Ivy Store',
     item: bits_cart,
     cdnUrl: config.IVY_CDN_URL,
     version: process.env.npm_package_version,
