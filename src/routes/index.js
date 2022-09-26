@@ -190,7 +190,7 @@ router.post('/checkout', async (req, res) => {
   }
 })
 
-/*
+
 router.get('/qr-checkout', async (req, res) => {
   res.render('shop-bits-cap-new', {
     title: 'Bits x Ivy Store',
@@ -199,9 +199,9 @@ router.get('/qr-checkout', async (req, res) => {
     version: process.env.npm_package_version,
   })
 })
-*/
 
-router.get('/qr-checkout', (req, res) => {
+
+router.get('/sold-out', (req, res) => {
   res.render('shop-bits-sold-out', {
     title: 'Bits Ivy Store',
   })
