@@ -166,6 +166,9 @@ router.post('/checkout', async (req, res) => {
         zipCode: '88662',
         city: 'Überlingen',
       },
+      metadata: {
+        test: 1,
+      },
     }
 
     console.log('begin request')
@@ -190,7 +193,6 @@ router.post('/checkout', async (req, res) => {
   }
 })
 
-
 router.get('/qr-checkout', async (req, res) => {
   res.render('shop-bits-cap-new', {
     title: 'Bits x Ivy Store',
@@ -199,7 +201,6 @@ router.get('/qr-checkout', async (req, res) => {
     version: process.env.npm_package_version,
   })
 })
-
 
 router.get('/sold-out', (req, res) => {
   res.render('shop-bits-sold-out', {
@@ -220,7 +221,6 @@ router.get('/bits-failure', (req, res) => {
 })
 
 router.post('/checkout-bits', async (req, res) => {
-
   const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
 
   try {
@@ -242,7 +242,7 @@ router.post('/checkout-bits', async (req, res) => {
           amount: bits_cart.amount,
           image: bits_cart.image,
           quantity: bits_cart.quantity,
-        }
+        },
       ],
       billingAddress: {
         country: 'DE',
@@ -251,8 +251,8 @@ router.post('/checkout-bits', async (req, res) => {
         city: 'München',
       },
       metadata: {
-        "event": "bits",
-      }
+        event: 'bits',
+      },
     }
 
     const { data: response } = await axios.post(
@@ -270,14 +270,12 @@ router.post('/checkout-bits', async (req, res) => {
       res.json({
         soldOut: true,
       })
-    }
-    else {
+    } else {
       res.json({
         soldOut: false,
         url: response.redirectUrl,
       })
     }
-
   } catch (err) {
     console.error(err.response.data)
     res.status(400).send(err.response.data.message)
@@ -285,7 +283,6 @@ router.post('/checkout-bits', async (req, res) => {
 })
 
 router.post('/plant-two-trees', async (req, res) => {
-
   const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
 
   try {
@@ -307,7 +304,7 @@ router.post('/plant-two-trees', async (req, res) => {
           amount: 0,
           image: '',
           quantity: 1,
-        }
+        },
       ],
       billingAddress: {
         country: 'DE',
@@ -330,12 +327,10 @@ router.post('/plant-two-trees', async (req, res) => {
     res.json({
       url: response.redirectUrl,
     })
-
   } catch (err) {
     console.error(err.response.data)
     res.status(400).send(err.response.data.message)
   }
 })
-
 
 module.exports = router
