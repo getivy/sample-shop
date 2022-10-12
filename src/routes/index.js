@@ -61,7 +61,16 @@ router.post('/callback/quote', (req, res) => {
   }
 
   if (req.body.discount) {
-    response.discount = vouchers.find(voucher => voucher.voucher === req.body.discount.voucher)
+    const hasValidVoucher = vouchers.find(voucher => voucher.voucher === req.body.discount.voucher)
+    if (hasValidVoucher) {
+      const cartPrice = getCartPrice()
+      response.price = {
+        totalNet: cartPrice.subtotalNet - hasValidVoucher.amount,
+        vat: cartPrice.vat,
+        total: cartPrice.total - hasValidVoucher.amount,
+      }
+      response.discount = hasValidVoucher
+    }
   }
 
   const expectedResponse = sign(response)
