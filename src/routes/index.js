@@ -8,7 +8,7 @@ const vouchers = require('../data/voucher.json')
 const cart = require('../data/cart.json')
 const bits_cart = require('../data/bits-cart.json')
 
-router.post('/callback/complete', (req, res) => {
+router.post('/callback/complete', async (req, res) => {
   const signature = req.get('X-Ivy-Signature')
   const data = req.body
 
@@ -17,7 +17,8 @@ router.post('/callback/complete', (req, res) => {
   if (signature !== expectedSignature) throw new Error('invalid signature!')
 
   console.log(data)
-
+  await new Promise(resolve => setTimeout(resolve, 120000))
+  console.log('watining done')
   const hasSameItems = cart.items.every(cartItem => {
     return data.lineItems.find(
       lineItem =>
