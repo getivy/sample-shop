@@ -1,0 +1,45 @@
+extends _partials/layout
+
+block scripts
+  script(src=cdnUrl + "/button.js")
+
+block content
+  each item in items
+    .p-4.flex.flex-nowrap.items-center
+      p.font-medium.mr-4 !{item.amount}x
+      img(src=item.image).w-20.h-20.object-cover.rounded.drop-shadow-lg
+      p.font-medium.mx-4.grow Demo Item
+      p.font-medium.mx-4.w-20 !{item.price_total} €
+  hr.mb-4
+  .p-4.flex.flex-col.justify-end.items-end.column
+    p.mx-4.mb-2 Subtotal 91.18 € 
+    p.mx-4.mb-2 Shipping !{shipping} €
+    p.font-medium.mx-4.mb-6 Total !{total} € 
+
+    script.
+      function onClick() { 
+        fetch('/checkout?express=true', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+          const link = document.getElementById('link')
+          link.value = data.url
+          link.style.width = data.url.length + "ch"
+        })
+      }
+
+      function copy() {
+        const value = document.getElementById('link').value
+        if(value) {
+          navigator.clipboard.writeText(value).then(() => console.log("Copied the link: " + value))
+        }
+      }
+
+    div 
+      button(class="border-none inline-block px-6 py-2.5 bg-teal-900 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-teal-700 hover:shadow-lg focus:bg-teal-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-teal-800 active:shadow-lg transition duration-150 ease-in-out" type="button" onClick='onClick()') Generate Link
+    div.flex.flex-row.mt-2
+      div
+        input(class="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1" id="link" placeholder="Click on Generate Link...")
+      div.ml-1(type="button" onClick='copy()')
+        svg.h-11.w-7(focusable="false" aria-hidden="true" viewBox="0 0 24 24")
+          path(d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z")
+  

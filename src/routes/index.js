@@ -143,6 +143,16 @@ router.get('/', (req, res) => {
   })
 })
 
+router.get('/pay-by-link', (req, res) => {
+  res.render('pay-by-link', {
+    title: 'Pay by link',
+    items: cart.items,
+    ...getCartPrice(),
+    cdnUrl: config.IVY_CDN_URL,
+    version: process.env.npm_package_version,
+  })
+})
+
 router.post('/checkout', async (req, res) => {
   const cartPrice = getCartPrice()
   const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
@@ -291,55 +301,6 @@ router.post('/checkout-bits', async (req, res) => {
   }
 })
 
-router.post('/plant-two-trees', async (req, res) => {
-  const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
 
-  try {
-    const data = {
-      referenceId: generateReferenceId,
-      category: '5999',
-      price: {
-        totalNet: 0,
-        vat: 0,
-        shipping: 0,
-        total: 0,
-        currency: 'EUR',
-      },
-      lineItems: [
-        {
-          name: 'One tree as a gift!',
-          singleNet: 0,
-          singleVat: 0,
-          amount: 0,
-          image: '',
-          quantity: 1,
-        },
-      ],
-      billingAddress: {
-        country: 'DE',
-        line1: 'Bits & Pretzels',
-        zipCode: '80469',
-        city: 'München',
-      },
-    }
-
-    const { data: response } = await axios.post(
-      `${config.IVY_API_URL}/service/checkout/session/create`,
-      data,
-      {
-        headers: {
-          'X-Ivy-Api-Key': config.IVY_API_KEY,
-        },
-      }
-    )
-
-    res.json({
-      url: response.redirectUrl,
-    })
-  } catch (err) {
-    console.error(err.response.data)
-    res.status(400).send(err.response.data.message)
-  }
-})
 
 module.exports = router
