@@ -34,9 +34,9 @@ block content
       span Normal Checkout:
       button(type="button" onclick='onClick(false)' data-cart-value="200" data-locale="de").ivy-checkout-button
 
-    div
+    div.w-full
       span Express with plugin SW6-1.1.6:
-      button(type="button" onclick='onClick(true, false, "sw6-1.1.6")' data-cart-value="200" data-locale="de").ivy-checkout-button
+      div(onclick='onClick(true, false, "sw6-1.1.6")' data-cart-value="200" data-locale="de").ivy-checkout-button
 
     div
       span Express: Invalid Card Checkout
