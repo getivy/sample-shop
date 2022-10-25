@@ -156,7 +156,7 @@ router.get('/pay-by-link', (req, res) => {
 router.post('/checkout', async (req, res) => {
   const cartPrice = getCartPrice()
   const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
-  const randomMail = "info+generateReferenceId@getivy.de"
+  const randomMail = "info+" + generateReferenceId + "@getivy.de"
 
   try {
     const data = {
