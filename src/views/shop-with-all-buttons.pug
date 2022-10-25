@@ -18,8 +18,8 @@ block content
     p.font-medium.mx-4.mb-6 Total !{total} € 
 
     script.
-      function onClick(express = false, broken = false, plugin = '') { 
-        fetch(`/checkout?plugin=${plugin}&express=${express}&${broken ? 'broken=true' : ''}`, { method: 'POST' })
+      function onClick(express = false, broken = false, email = false, plugin = '') { 
+        fetch(`/checkout?plugin=${plugin}&express=${express}&${broken ? 'broken=true' : ''}&email=${email}`, { method: 'POST' })
         .then(response => response.json())
         .then(data => {
           startIvyCheckout(data.url, "popup")
@@ -34,9 +34,13 @@ block content
       span Normal Checkout:
       button(type="button" onclick='onClick(false)' data-cart-value="200" data-locale="de").ivy-checkout-button
 
+    div
+      span Normal Checkout: Prefill email
+      button(type="button" onclick='onClick(false, false, true)' data-cart-value="200" data-locale="nl").ivy-checkout-button
+
     div.w-full
       span Express with plugin SW6-1.1.6:
-      div(onclick='onClick(true, false, "sw6-1.1.6")' data-cart-value="200" data-locale="de").ivy-checkout-button
+      div(onclick='onClick(true, false, false, "sw6-1.1.6")' data-cart-value="200" data-locale="de").ivy-checkout-button
 
     div
       span Express: Invalid Card Checkout
