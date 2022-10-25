@@ -169,7 +169,7 @@ router.post('/checkout', async (req, res) => {
         totalNet: cartPrice.subtotalNet,
         vat: cartPrice.vat,
         shipping: cartPrice.shipping,
-        total: cartPrice.total,
+        total: 1,
         currency: 'EUR',
       },
       lineItems: cart.items.map(item => ({
