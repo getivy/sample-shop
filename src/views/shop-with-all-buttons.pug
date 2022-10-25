@@ -18,7 +18,7 @@ block content
     p.font-medium.mx-4.mb-6 Total !{total} € 
 
     script.
-      function onClick(express = false, broken = false, email = false, plugin = '') { 
+      function onClick(express = false, broken = false, email = false, plugin = '', phoneRequired = true, locale = '') { 
         fetch(`/checkout?plugin=${plugin}&express=${express}&${broken ? 'broken=true' : ''}&email=${email}`, { method: 'POST' })
         .then(response => response.json())
         .then(data => {
@@ -45,3 +45,7 @@ block content
     div
       span Express: Invalid Card Checkout
       button(type="button" onclick='onClick(true, true)' data-cart-value="200" data-locale="nl").ivy-checkout-button
+
+    div
+      span Express Checkout: phone not required and locale = nl
+      button(type="button" onclick='onClick(true, false, false, "", false, "nl")' data-cart-value="200" data-locale="en" data-position="above").ivy-checkout-button

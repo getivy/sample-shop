@@ -191,6 +191,10 @@ router.post('/checkout', async (req, res) => {
       },
       prefill: {
         email: req.query.email === 'true' ? randomMail : "",
+      },
+      locale: req.query.locale,
+      required: {
+        phone: req.query.phoneRequired
       }
     }
 
