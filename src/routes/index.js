@@ -188,6 +188,9 @@ router.post('/checkout', async (req, res) => {
       metadata: {
         test: 1,
       },
+      prefill: {
+        email: req.query.email === 'true' ? "info@getivy.de" : "",
+      }
     }
 
     console.log('begin request')
