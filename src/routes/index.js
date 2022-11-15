@@ -163,6 +163,7 @@ router.post('/checkout', async (req, res) => {
       verificationToken: 'TEST',
       plugin: req.query.plugin,
       express: req.query.express,
+      handshake: req.query.handshake,
       referenceId: generateReferenceId,
       category: '5999',
       price: {
