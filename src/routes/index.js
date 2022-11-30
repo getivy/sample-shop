@@ -9,8 +9,11 @@ const cart = require('../data/cart.json')
 const bits_cart = require('../data/bits-cart.json')
 
 router.post('/callback/complete', (req, res) => {
+
   const signature = req.get('X-Ivy-Signature')
   const data = req.body
+
+  if (data.metadata.broken === 'true') throw new Error('Handshake refused')
 
   const expectedSignature = sign(data)
 
@@ -179,7 +182,7 @@ router.post('/checkout', async (req, res) => {
         singleVat: item.price_vat,
         amount: item.price_total,
         image: item.image,
-        quantity: req.query.broken === 'true' ? 100 : item.amount,
+        quantity: item.amount,
       })),
       billingAddress: {
         country: 'DE',
@@ -189,6 +192,7 @@ router.post('/checkout', async (req, res) => {
       },
       metadata: {
         test: 1,
+        broken: req.query.broken,
       },
       prefill: {
         email: req.query.email === 'true' ? randomMail : "",
@@ -200,6 +204,8 @@ router.post('/checkout', async (req, res) => {
     }
 
     console.log('begin request')
+
+    console.log(`${config.IVY_API_URL}/service/checkout/session/create`)
 
     const { data: session } = await axios.post(
       `${config.IVY_API_URL}/service/checkout/session/create`,
@@ -216,6 +222,7 @@ router.post('/checkout', async (req, res) => {
       url: session.redirectUrl,
     })
   } catch (err) {
+    console.log(err)
     console.error(err.response.data)
     res.status(400).send(err.response.data.message)
   }
