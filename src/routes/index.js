@@ -32,6 +32,7 @@ router.post('/callback/complete', (req, res) => {
 
   const response = {
     redirectUrl: `${req.protocol}://${req.headers.host}/callback/success`,
+    displayId: "beautiful_id",
   }
 
   const expectedResponse = sign(response)
