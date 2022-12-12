@@ -160,8 +160,8 @@ router.get('/pay-by-link', (req, res) => {
 router.post('/checkout', async (req, res) => {
   const cartPrice = getCartPrice()
   const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
-  const randomMail = "info+" + generateReferenceId + "@getivy.de"
-
+  const randomMail = 'info+' + generateReferenceId + '@getivy.de'
+  const bankId = 'ins_132704'
   try {
     const data = {
       verificationToken: 'TEST',
@@ -174,7 +174,7 @@ router.post('/checkout', async (req, res) => {
         totalNet: cartPrice.subtotalNet,
         vat: cartPrice.vat,
         shipping: cartPrice.shipping,
-        total: 1.50,
+        total: 1.5,
         currency: 'EUR',
       },
       lineItems: cart.items.map(item => ({
@@ -196,12 +196,13 @@ router.post('/checkout', async (req, res) => {
         broken: req.query.broken,
       },
       prefill: {
-        email: req.query.email === 'true' ? randomMail : "",
+        email: req.query.email === 'true' ? randomMail : '',
+        bankId: req.query.bank === 'true' ? bankId : '',
       },
-      locale: req.query.locale,
+      ...(req.query.locale ? { locale: req.query.locale } : {}),
       required: {
-        phone: req.query.phoneRequired
-      }
+        phone: req.query.phoneRequired,
+      },
     }
 
     console.log('begin request')
@@ -317,7 +318,5 @@ router.post('/checkout-bits', async (req, res) => {
     res.status(400).send(err.response.data.message)
   }
 })
-
-
 
 module.exports = router

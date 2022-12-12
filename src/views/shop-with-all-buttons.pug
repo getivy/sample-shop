@@ -18,8 +18,9 @@ block content
     p.font-medium.mx-4.mb-6 Total !{total} € 
 
     script.
-      function onClick(express = false, broken = false, email = false, plugin = '', phoneRequired = true, locale = '', handshake = false) { 
-        fetch(`/checkout?plugin=${plugin}&express=${express}&${broken ? 'broken=true' : ''}&email=${email}&handshake=${handshake}`, { method: 'POST' })
+      function onClick(express = false, broken = false, email = false, bank = false, plugin = '', phoneRequired = false, locale = '', handshake = false) { 
+        fetch(`/checkout?plugin=${plugin}&express=${express}&${broken ? 'broken=true' : ''}&email=${email}&bank=${bank}&phoneRequired=${phoneRequired}&locale=${locale}&handshake=${handshake}`,
+        { method: 'POST' })
         .then(response => response.json())
         .then(data => {
           startIvyCheckout(data.url, "popup")
@@ -43,12 +44,12 @@ block content
       button(type="button" onclick='onClick(false)' data-cart-value="200" data-locale="de").ivy-checkout-button
     
     div
-      span Normal Checkout: Mactrade styling
-      button(type="button" onclick='onClick(false)' data-cart-value="200" data-locale="de" data-variant="button-3").ivy-checkout-button
+      span Normal Checkout with prefilled email and bank (ING):
+      button(type="button" onclick='onClick(false, false, true, true)' data-cart-value="200" data-locale="de" data-variant="button-3").ivy-checkout-button
 
     div
       span Normal Checkout with handshake:
-      button(type="button" onclick='onClick(false, false, false, "", false, "nl", true)' data-cart-value="200" data-locale="de").ivy-checkout-button
+      button(type="button" onclick='onClick(false, false, false, false, "", false, "nl", true)' data-cart-value="200" data-locale="de").ivy-checkout-button
 
     div
       span Normal Checkout: Prefill email
@@ -56,12 +57,12 @@ block content
 
     div.w-full
       span Express with plugin SW6-1.1.6:
-      div(onclick='onClick(true, false, false, "sw6-1.1.6")' data-cart-value="200" data-locale="de").ivy-checkout-button
+      div(onclick='onClick(true, false, false, false, "sw6-1.1.6")' data-cart-value="200" data-locale="de").ivy-checkout-button
 
     div
       span Express: Handshake refused
       button(type="button" onclick='onClick(true, true)' data-cart-value="200" data-locale="nl").ivy-checkout-button
 
     div
-      span Express Checkout: phone not required and locale = nl
-      button(type="button" onclick='onClick(true, false, false, "", false, "nl")' data-cart-value="200" data-locale="en" data-position="above").ivy-checkout-button
+      span Express Checkout: phone required and locale = nl
+      button(type="button" onclick='onClick(true, false, false, false, "", true, "nl")' data-cart-value="200" data-locale="en" data-position="above").ivy-checkout-button
