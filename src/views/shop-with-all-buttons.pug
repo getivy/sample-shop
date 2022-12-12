@@ -27,8 +27,16 @@ block content
        }
     
     div
-      span Express Checkout:
+      span Express Checkout (Button 1):
+      button(type="button" onclick='onClick(true)' data-variant="button-1" data-cart-value="200" data-locale="en" data-position="above").ivy-checkout-button
+
+    div.w-80
+      span Express Checkout (Button 2):
       button(type="button" onclick='onClick(true)' data-cart-value="200" data-locale="en" data-position="above").ivy-checkout-button
+
+    div
+      span Express Checkout (Button 3):
+      button(type="button" onclick='onClick(true)' data-variant="button-3" data-cart-value="200" data-locale="en" data-position="above").ivy-checkout-button
 
     div
       span Normal Checkout:
