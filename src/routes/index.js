@@ -168,6 +168,7 @@ router.post('/checkout', async (req, res) => {
       plugin: req.query.plugin,
       express: req.query.express,
       handshake: req.query.handshake,
+      guest: req.query.guest,
       referenceId: generateReferenceId,
       category: '5999',
       price: {
