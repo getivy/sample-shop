@@ -164,6 +164,7 @@ router.post('/checkout', async (req, res) => {
   const bankId = 'ins_132704'
   try {
     const data = {
+      guest: req.query.guest,
       verificationToken: 'TEST',
       plugin: req.query.plugin,
       express: req.query.express,

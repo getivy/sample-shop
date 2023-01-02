@@ -26,7 +26,19 @@ block content
           startIvyCheckout(data.url, "popup")
         })
        }
-    
+
+      function guestCheckout(broken = false, plugin = '', locale = '', handshake = false) { 
+        fetch(`/checkout?guest=true&plugin=${plugin}&express=false&${broken ? 'broken=true' : ''}&handshake=${handshake}`, { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+          startIvyCheckout(data.url, "popup")
+        })
+       }
+
+    div
+      span Guest Checkout:
+      button(type="button" onclick='guestCheckout()' data-cart-value="200" data-locale="en" data-position="above").ivy-checkout-button
+
     div
       span Express Checkout (Button 1):
       button(type="button" onclick='onClick(true)' data-variant="button-1" data-cart-value="200" data-locale="en" data-position="above").ivy-checkout-button
