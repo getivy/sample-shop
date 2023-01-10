@@ -161,7 +161,7 @@ router.post('/checkout', async (req, res) => {
   const cartPrice = getCartPrice()
   const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
   const randomMail = 'info+' + generateReferenceId + '@getivy.de'
-  const bankId = 'ins_132704'
+  const bankId = 'de-ing-ob'
   try {
     const data = {
       guest: req.query.guest,
