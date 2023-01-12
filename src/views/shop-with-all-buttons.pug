@@ -37,11 +37,11 @@ block content
 
     div
       span Guest Checkout:
-      button(type="button" onclick='guestCheckout()' data-cart-value="200" data-locale="en" data-position="above").ivy-checkout-button
+      button(type="button" onclick='guestCheckout()' data-cart-value="200" data-locale="en" data-position="above" data-testid="checkout-guest").ivy-checkout-button
 
     div
       span Express Checkout (Button 1):
-      button(type="button" onclick='onClick(true)' data-variant="button-1" data-cart-value="200" data-locale="en" data-position="above").ivy-checkout-button
+      button(type="button" onclick='onClick(true)' data-variant="button-1" data-cart-value="200" data-locale="en" data-position="above" data-testid="checkout-express-1").ivy-checkout-button
 
     div.w-80
       span Express Checkout (Button 2):
@@ -53,7 +53,7 @@ block content
 
     div
       span Normal Checkout:
-      button(type="button" onclick='onClick(false)' data-cart-value="200" data-locale="de").ivy-checkout-button
+      button(type="button" onclick='onClick(false)' data-cart-value="200" data-locale="de" data-testid="checkout-normal").ivy-checkout-button
 
     div
       span Guest Checkout:
@@ -61,24 +61,24 @@ block content
     
     div
       span Normal Checkout with prefilled email and bank (ING):
-      button(type="button" onclick='onClick(false, false, false, true, true)' data-cart-value="200" data-locale="de" data-variant="button-3").ivy-checkout-button
+      button(type="button" onclick='onClick(false, false, false, true, true)' data-cart-value="200" data-locale="de" data-variant="button-3" data-testid="checkout-prefilled-both").ivy-checkout-button
 
     div
       span Normal Checkout with handshake:
-      button(type="button" onclick='onClick(false, false, false, false, false, "", false, "nl", true)' data-cart-value="200" data-locale="de").ivy-checkout-button
+      button(type="button" onclick='onClick(false, false, false, false, false, "", false, "nl", true)' data-cart-value="200" data-locale="de" data-testid="checkout-handshake").ivy-checkout-button
 
     div
       span Normal Checkout: Prefill email
-      button(type="button" onclick='onClick(false, false, false, true)' data-cart-value="200" data-locale="nl").ivy-checkout-button
+      button(type="button" onclick='onClick(false, false, false, true)' data-cart-value="200" data-locale="nl" data-testid="checkout-prefilled-email").ivy-checkout-button
 
     div.w-full
       span Express with plugin SW6-1.1.21:
-      div(onclick='onClick(true, false, false, false, false, "sw6-1.1.21")' data-cart-value="200" data-locale="de").ivy-checkout-button
+      div(onclick='onClick(true, false, false, false, false, "sw6-1.1.21")' data-cart-value="200" data-locale="de" data-testid="checkout-sw6").ivy-checkout-button
 
     div
       span Express: Handshake refused
-      button(type="button" onclick='onClick(true, false, true)' data-cart-value="200" data-locale="nl").ivy-checkout-button
+      button(type="button" onclick='onClick(true, false, true)' data-cart-value="200" data-locale="nl" data-testid="checkout-handshake-refused").ivy-checkout-button
 
     div
       span Express Checkout: phone required and locale = nl
-      button(type="button" onclick='onClick(true, false, false, false, false, "", true, "nl")' data-cart-value="200" data-locale="en" data-position="above").ivy-checkout-button
+      button(type="button" onclick='onClick(true, false, false, false, false, "", true, "nl")' data-cart-value="200" data-locale="en" data-position="above" data-testid="checkout-required-phone").ivy-checkout-button
