@@ -161,7 +161,6 @@ router.post('/checkout', async (req, res) => {
   const cartPrice = getCartPrice()
   const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
   const randomMail = 'info+' + generateReferenceId + '@getivy.de'
-  const bankId = 'de-ing-ob'
   try {
     const data = {
       guest: req.query.guest,
@@ -199,7 +198,7 @@ router.post('/checkout', async (req, res) => {
       },
       prefill: {
         email: req.query.email === 'true' ? randomMail : '',
-        bankId: req.query.bank === 'true' ? bankId : '',
+        bankId: req.query.bank,
       },
       ...(req.query.locale ? { locale: req.query.locale } : {}),
       required: {
