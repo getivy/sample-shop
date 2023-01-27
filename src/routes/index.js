@@ -102,28 +102,20 @@ router.get('/callback/error', (req, res) => {
 })
 
 function getCartPrice() {
-  const subtotal = parseFloat(
-    cart.items
-      .reduce((acc, item) => {
-        return acc + item.price_total
-      }, 0)
-      .toFixed(2)
-  )
 
-  const subtotalNet = parseFloat(
-    cart.items
-      .reduce((acc, item) => {
-        return acc + item.price_net
-      }, 0)
-      .toFixed(2)
-  )
+  const subtotal = 1.19
+  const subtotalNet = 1
+  const shipping = 0.11
+  const totalNet = subtotalNet + ( shipping / 1.19 ) * 0.19
+  const total = subtotal + shipping
 
   return {
     subtotal,
     subtotalNet,
-    shipping: cart.shipping,
-    vat: parseFloat(subtotal - subtotalNet).toFixed(2),
-    total: parseFloat(subtotal + cart.shipping).toFixed(2),
+    shipping,
+    totalNet,
+    vat,
+    total,
   }
 }
 
@@ -163,7 +155,6 @@ router.post('/checkout', async (req, res) => {
   const randomMail = 'info+' + generateReferenceId + '@getivy.de'
   try {
     const data = {
-      guest: req.query.guest,
       verificationToken: 'TEST',
       plugin: req.query.plugin,
       express: req.query.express,
@@ -172,10 +163,11 @@ router.post('/checkout', async (req, res) => {
       referenceId: generateReferenceId,
       category: '5999',
       price: {
-        totalNet: cartPrice.subtotalNet,
+        totalNet: cartPrice.totalNet,
         vat: cartPrice.vat,
         shipping: cartPrice.shipping,
-        total: 1.5,
+        total: cartPrice.total,
+        subTotal: cartPrice.subtotal,
         currency: 'EUR',
       },
       lineItems: cart.items.map(item => ({
