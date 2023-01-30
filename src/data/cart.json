@@ -4,27 +4,27 @@
     {
       "name": "Bits & Pretzels T-Shirt “Bavarian Robot”",
       "amount": 1,
-      "price_net": 38.82,
-      "price_vat": 7.38,
-      "price_total": 46.20,
+      "price_net": 0.5,
+      "price_vat": 0,
+      "price_total": 0.5,
       "image": "https://uploads-ssl.webflow.com/625ef80882b5db09f9b9fcf2/62ff55ff1030df9a33401e7f_image%201.png"
     },
     {
       "name": "Bits & Pretzels “Base cap”",
-      "amount": 3,
-      "price_net": 12.60,
-      "price_vat": 2.39,
-      "price_total": 14.99,
+      "amount": 1,
+      "price_net": 0.2,
+      "price_vat": 0,
+      "price_total": 0.2,
       "image": "https://uploads-ssl.webflow.com/625ef80882b5db09f9b9fcf2/62ff55fe5552a6980595cf3e_Group%201.png"
     },
     {
       "name": "Bits & Pretzels T-Shirt “Screen Face”",
-      "amount": 2,
-      "price_net": 25.20,
-      "price_vat": 4.79,
-      "price_total": 29.99,
+      "amount": 1,
+      "price_net": 0.3,
+      "price_vat": 0,
+      "price_total": 0.3,
       "image": "https://uploads-ssl.webflow.com/625ef80882b5db09f9b9fcf2/62ff55ff1030dfc396401e7e_image%202.png"
     }
   ],
-  "shipping": 5.00
+  "shipping": 1
 }

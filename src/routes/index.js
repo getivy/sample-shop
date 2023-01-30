@@ -103,11 +103,26 @@ router.get('/callback/error', (req, res) => {
 
 function getCartPrice() {
 
-  const subtotal = 1.19
-  const subtotalNet = 1
-  const shipping = 0.11
+  const subtotal = parseFloat(
+    cart.items
+      .reduce((acc, item) => {
+        return acc + item.price_total
+      }, 0)
+      .toFixed(2)
+  )
+
+  const subtotalNet = parseFloat(
+    cart.items
+      .reduce((acc, item) => {
+        return acc + item.price_net
+      }, 0)
+      .toFixed(2)
+  )
+
+  const shipping = cart.shipping
   const totalNet = subtotalNet + ( shipping / 1.19 ) * 0.19
   const total = subtotal + shipping
+  const vat = total - totalNet
 
   return {
     subtotal,
