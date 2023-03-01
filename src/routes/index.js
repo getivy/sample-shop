@@ -9,7 +9,6 @@ const cart = require('../data/cart.json')
 const bits_cart = require('../data/bits-cart.json')
 
 router.post('/callback/complete', (req, res) => {
-
   const signature = req.get('X-Ivy-Signature')
   const data = req.body
 
@@ -32,7 +31,8 @@ router.post('/callback/complete', (req, res) => {
 
   const response = {
     redirectUrl: `${req.protocol}://${req.headers.host}/callback/success`,
-    displayId: "beautiful_id",
+    displayId: 'beautiful_id',
+    referenceId: data.referenceId + '-updated-from-callback',
   }
 
   const expectedResponse = sign(response)
@@ -77,6 +77,10 @@ router.post('/callback/quote', (req, res) => {
     }
   }
 
+  response.metadata = {
+    newValueFromQuote: 'hello',
+  }
+
   const expectedResponse = sign(response)
 
   res.setHeader('X-Ivy-Signature', expectedResponse)
@@ -102,7 +106,6 @@ router.get('/callback/error', (req, res) => {
 })
 
 function getCartPrice() {
-
   const subtotal = cart.subTotal
   const subtotalNet = parseFloat(
     cart.items
@@ -113,7 +116,7 @@ function getCartPrice() {
   )
 
   const shipping = cart.shipping
-  const totalNet = subtotalNet + ( shipping / 1.19 ) * 0.19
+  const totalNet = subtotalNet + (shipping / 1.19) * 0.19
   const total = subtotal + shipping
   const vat = total - totalNet
 
