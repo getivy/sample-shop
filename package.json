@@ -28,7 +28,7 @@
     "pug": "3.0.2"
   },
   "devDependencies": {
-    "nodemon": "2.0.20"
+    "nodemon": "2.0.21"
   },
   "engines": {
     "node": "18.x",
