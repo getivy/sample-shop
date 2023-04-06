@@ -3,7 +3,7 @@ const router = express.Router()
 
 
 router.post('/', (req, res) => {
-  console.log(data)
+  console.log(req.body)
   // Do something with data and/or data.payload
 
   res.send({ success: true })
