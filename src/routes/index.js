@@ -2,89 +2,38 @@ const express = require('express')
 const axios = require('axios')
 const router = express.Router()
 const config = require('../config')
-const { sign } = require('../utils/sign')
-const shippingMethods = require('../data/shipping.json')
-const vouchers = require('../data/voucher.json')
 const cart = require('../data/cart.json')
 const bits_cart = require('../data/bits-cart.json')
+const { getCartPrice } = require('../utils/getCartPrice')
 
-router.post('/callback/complete', (req, res) => {
-  const signature = req.get('X-Ivy-Signature')
-  const data = req.body
-
-  if (data.metadata.broken === 'true') throw new Error('Handshake refused')
-
-  const expectedSignature = sign(data)
-
-  if (signature !== expectedSignature) throw new Error('invalid signature!')
-
-  console.log(data)
-
-  const hasSameItems = cart.items.every(cartItem => {
-    return data.lineItems.find(
-      lineItem =>
-        lineItem.name === cartItem.name &&
-        lineItem.quantity === cartItem.amount &&
-        lineItem.singleNet === cartItem.price_net
-    )
+router.get('/all-buttons', (req, res) => {
+  res.render('shop-with-all-buttons', {
+    title: 'Ivy Demo Store',
+    items: cart.items,
+    ...getCartPrice(cart),
+    cdnUrl: config.IVY_CDN_URL,
+    version: process.env.npm_package_version,
   })
-
-  const response = {
-    redirectUrl: `${req.protocol}://${req.headers.host}/callback/success`,
-    displayId: 'beautiful_id',
-    referenceId: data.referenceId + '-updated-from-callback',
-  }
-
-  const expectedResponse = sign(response)
-
-  if (!hasSameItems) {
-    console.log('/callback/complete: Failed, cart could not been validated')
-    res.status(400)
-  }
-
-  res.setHeader('X-Ivy-Signature', expectedResponse)
-  res.json(response)
 })
 
-router.post('/callback/quote', (req, res) => {
-  const response = {
-    currency: req.body.currency,
-  }
+router.get('/', (req, res) => {
+  res.render('shop', {
+    title: 'Ivy Demo Store',
+    items: cart.items,
+    ...getCartPrice(cart),
+    cdnUrl: config.IVY_CDN_URL,
+    version: process.env.npm_package_version,
+  })
+})
 
-  const signature = req.get('X-Ivy-Signature')
-  const data = req.body
-
-  const expectedSignature = sign(data)
-
-  if (signature !== expectedSignature) throw new Error('invalid signature!')
-
-  if (req.body.shipping) {
-    response.shippingMethods = shippingMethods.filter(
-      item => !!item.countries.includes(req.body.shipping.shippingAddress.country)
-    )
-  }
-
-  if (req.body.discount) {
-    const hasValidVoucher = vouchers.find(voucher => voucher.voucher === req.body.discount.voucher)
-    if (hasValidVoucher) {
-      const cartPrice = getCartPrice()
-      response.price = {
-        totalNet: cartPrice.subtotalNet - hasValidVoucher.amount,
-        vat: cartPrice.vat,
-        total: cartPrice.total - hasValidVoucher.amount,
-      }
-      response.discount = hasValidVoucher
-    }
-  }
-
-  response.metadata = {
-    newValueFromQuote: 'hello',
-  }
-
-  const expectedResponse = sign(response)
-
-  res.setHeader('X-Ivy-Signature', expectedResponse)
-  res.json(response)
+router.get('/pay-by-link', (req, res) => {
+  res.render('pay-by-link', {
+    title: 'Pay by link',
+    items: cart.items,
+    ...getCartPrice(cart),
+    cdnUrl: config.IVY_CDN_URL,
+    version: process.env.npm_package_version,
+  })
 })
 
 router.get('/callback/success', (req, res) => {
@@ -105,72 +54,22 @@ router.get('/callback/error', (req, res) => {
   })
 })
 
-function getCartPrice() {
-  const subtotal = cart.subTotal
-  const subtotalNet = parseFloat(
-    cart.items
-      .reduce((acc, item) => {
-        return acc + item.price_net
-      }, 0)
-      .toFixed(2)
-  )
-
-  const shipping = cart.shipping
-  const totalNet = subtotalNet + (shipping / 1.19) * 0.19
-  const total = subtotal + shipping
-  const vat = total - totalNet
-
-  return {
-    subtotal,
-    subtotalNet,
-    shipping,
-    totalNet,
-    vat,
-    total,
-  }
-}
-
-router.get('/all-buttons', (req, res) => {
-  res.render('shop-with-all-buttons', {
-    title: 'Ivy Demo Store',
-    items: cart.items,
-    ...getCartPrice(),
-    cdnUrl: config.IVY_CDN_URL,
-    version: process.env.npm_package_version,
-  })
-})
-
-router.get('/', (req, res) => {
-  res.render('shop', {
-    title: 'Ivy Demo Store',
-    items: cart.items,
-    ...getCartPrice(),
-    cdnUrl: config.IVY_CDN_URL,
-    version: process.env.npm_package_version,
-  })
-})
-
-router.get('/pay-by-link', (req, res) => {
-  res.render('pay-by-link', {
-    title: 'Pay by link',
-    items: cart.items,
-    ...getCartPrice(),
-    cdnUrl: config.IVY_CDN_URL,
-    version: process.env.npm_package_version,
-  })
-})
-
 router.post('/checkout', async (req, res) => {
-  const cartPrice = getCartPrice()
+  const cartPrice = getCartPrice(cart)
   const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
   const randomMail = 'info+' + generateReferenceId + '@getivy.de'
+
+  const reqData = Object.keys(req.body).length > 0 ? req.body : req.query
+
+  const isUsCheckout = reqData.bank === 'us_bank_account'
+
   try {
     const data = {
       verificationToken: 'TEST',
-      plugin: req.query.plugin,
-      express: req.query.express,
-      handshake: req.query.handshake,
-      guest: req.query.guest,
+      plugin: reqData.plugin,
+      express: reqData.express,
+      handshake: reqData.handshake,
+      guest: reqData.guest,
       referenceId: generateReferenceId,
       category: '5999',
       price: {
@@ -179,7 +78,7 @@ router.post('/checkout', async (req, res) => {
         shipping: cartPrice.shipping,
         total: cartPrice.total,
         subTotal: cartPrice.subtotal,
-        currency: 'EUR',
+        currency: reqData.currency ?? 'EUR',
       },
       lineItems: cart.items.map(item => ({
         name: item.name,
@@ -197,15 +96,15 @@ router.post('/checkout', async (req, res) => {
       },
       metadata: {
         test: 1,
-        broken: req.query.broken,
+        broken: reqData.broken,
       },
       prefill: {
-        email: req.query.email === 'true' ? randomMail : '',
-        bankId: req.query.bank,
+        email: reqData.email === 'true' ? randomMail : '',
+        bankId: reqData.bank,
       },
-      ...(req.query.locale ? { locale: req.query.locale } : {}),
+      ...(reqData.locale ? { locale: reqData.locale } : {}),
       required: {
-        phone: req.query.phoneRequired,
+        phone: reqData.phoneRequired,
       },
     }
 
@@ -218,7 +117,7 @@ router.post('/checkout', async (req, res) => {
       data,
       {
         headers: {
-          'X-Ivy-Api-Key': config.IVY_API_KEY,
+          'X-Ivy-Api-Key': isUsCheckout ? config.US_IVY_API_KEY : config.IVY_API_KEY,
         },
       }
     )
@@ -258,6 +157,16 @@ router.get('/bits-success', (req, res) => {
 router.get('/bits-failure', (req, res) => {
   res.render('shop-bits-failure', {
     title: 'Bits Ivy Store',
+  })
+})
+
+router.get('/dynamic', (req, res) => {
+  res.render('dynamic', {
+    title: 'Ivy Demo Store',
+    items: cart.items,
+    ...getCartPrice(cart),
+    cdnUrl: config.IVY_CDN_URL,
+    version: process.env.npm_package_version,
   })
 })
 
