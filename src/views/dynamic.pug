@@ -1,0 +1,76 @@
+extends _partials/layout
+
+block scripts
+  script(src=cdnUrl + "/button.js")
+
+block content
+  each item in items
+    .p-4.flex.flex-nowrap.items-center
+      p.font-medium.mr-4 !{item.amount}x
+      img(src=item.image).w-20.h-20.object-cover.rounded.drop-shadow-lg
+      p.font-medium.mx-4.grow !{item.name}
+      p.font-medium.mx-4.w-20 !{item.price_total} €
+
+  hr.mb-4
+  .p-4.flex.flex-col.justify-end.items-end.column
+    p.mx-4.mb-2 Subtotal !{subTotal} € 
+    p.mx-4.mb-2 Shipping !{shipping} €
+    p.font-medium.mx-4.mb-6 Total !{total} € 
+
+    script.
+      function checkout(event) { 
+        const form = new FormData(document.getElementById("myForm"))
+        const data = Object.fromEntries(form.entries())
+
+        fetch(`/checkout`,
+        { method: 'POST', headers: {"Content-Type": "application/json"}, body: JSON.stringify(data) })
+        .then(response => response.json())
+        .then(data => {
+          startIvyCheckout(data.url, "popup")
+        })
+       }
+    div
+      form#myForm
+        div.justify-center
+          div
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value="us_bank_account" role="switch" name="bank")
+            label.inline-block US-Checkout
+          div
+            select.m-1(name='currency')
+              option(value='EUR') €
+              option(value='USD') $
+            label.inline-block Currency
+          div
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="express")
+            label.inline-block Express
+          div
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="handshake")
+            label.inline-block Handshake
+          div
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="guest")
+            label.inline-block Guest (not allowed with express)
+          div
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="broken")
+            label.inline-block Broken
+          div
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value="true" role="switch" name="email")
+            label.inline-block Email
+          div
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="phoneRequired")
+            label.inline-block Phone required (only express)           
+          div
+            input.h-5.m-1(type="text" name="plugin")
+            label.inline-block Plugin          
+          div
+            input.h-5.w-5.bg-neutral-300(type="checkbox" role="switch" value="de-test-open-banking-redirect-payment-successful" name="bank")
+            label.inline-block Prefilled bank                 
+          div
+            select.m-1(name='locale')
+              option(value='de') DE
+              option(value='en') EN
+              option(value='nl') NL
+            label.inline-block Locale                
+          div                    
+            button(type="button" onClick="checkout()" data-cart-value="200" data-locale="en" data-position="above" data-testid="checkout-guest").ivy-checkout-button
+    div
+      span Version: !{version}    
