@@ -1,0 +1,35 @@
+extends _partials/layout
+
+block scripts
+  script(src=cdnUrl + "/button.js")
+
+block content
+    script.
+      function ais(event) { 
+        const form = new FormData(document.getElementById("myForm"))
+        const data = Object.fromEntries(form.entries())
+
+        fetch(`/ais`,
+        { method: 'POST', headers: {"Content-Type": "application/json"}, body: JSON.stringify(data) })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          window.location.href = data.redirectUrl
+        })
+       }
+    div
+      form#myForm
+        div.justify-center   
+          div
+            input.h-5.w-5.bg-neutral-300(type="checkbox" role="switch" value="de-test-open-banking-redirect-payment-successful" name="bank")
+            label.inline-block Prefilled bank                 
+          div
+            select.m-1(name='locale')
+              option(value='de') DE
+              option(value='en') EN
+              option(value='nl') NL
+            label.inline-block Locale                
+          div                    
+            button.w-full.h-10.m-2(type="button" onClick="ais()" data-testid="ais-button") Start AIS
+    div
+      span Version: !{version}    

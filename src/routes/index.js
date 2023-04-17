@@ -170,6 +170,52 @@ router.get('/dynamic', (req, res) => {
   })
 })
 
+router.get('/ais', (req, res) => {
+  res.render('ais', {
+    title: 'Ivy Demo AIS Page',
+    cdnUrl: config.IVY_CDN_URL,
+    version: process.env.npm_package_version,
+  })
+})
+
+router.post('/ais', async (req, res) => {
+  const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
+
+  const reqData = Object.keys(req.body).length > 0 ? req.body : req.query
+  const data = {
+    referenceId: generateReferenceId,
+    prefill: {
+      email: reqData.email === 'true' ? randomMail : '',
+      bankId: reqData.bank,
+    },
+    ...(reqData.locale ? { locale: reqData.locale } : {}),
+    permissions: ['identity'],
+    successCallbackUrl: 'http://localhost:3335/callback/success',
+    errorCallbackUrl: 'http://localhost:3335/callback/error',
+    resultCallbackUrl: 'http://host.docker.internal:3335/callback/data',
+    metadata: {
+      test: 1,
+    },
+  }
+
+  console.log('create data session with:', data)
+
+  const { data: session } = await axios
+    .post(`${config.IVY_API_URL}/service/data/session/create`, data, {
+      headers: {
+        'X-Ivy-Api-Key': config.IVY_API_KEY,
+      },
+    })
+    .catch(err => {
+      console.log(err)
+      console.error(err.response.data)
+      return res.status(400).send(err.response.data.message)
+    })
+
+  console.log('session:', session)
+  res.json(session)
+})
+
 router.post('/checkout-bits', async (req, res) => {
   const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
 
