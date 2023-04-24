@@ -33,7 +33,7 @@ block content
       form#myForm
         div.justify-center
           div
-            input.h-5.w-5.bg-neutral-300(type="checkbox" value="us_bank_account" role="switch" name="bank")
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value="us_bank_account" role="switch" name="bank" data-testid="us-bank-checkout")
             label.inline-block US-Checkout
           div
             select.m-1(name='currency')
@@ -41,31 +41,31 @@ block content
               option(value='USD') $
             label.inline-block Currency
           div
-            input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="express")
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="express" data-testid="express-checkout")
             label.inline-block Express
           div
-            input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="handshake")
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="handshake" data-testid="handshake")
             label.inline-block Handshake
           div
-            input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="guest")
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="guest" data-testid="guest-checkout")
             label.inline-block Guest (not allowed with express)
           div
-            input.h-5.w-5.bg-neutral-300(type="checkbox" value="true" role="switch" name="broken")
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value="true" role="switch" name="broken" data-testid="broken")
             label.inline-block Broken
           div
-            input.h-5.w-5.bg-neutral-300(type="checkbox" value="true" role="switch" name="email")
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value="true" role="switch" name="email" data-testid="prefilled-email")
             label.inline-block Email
           div
-            input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="phoneRequired")
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="phoneRequired" data-testid="phone-required")
             label.inline-block Phone required (only express)           
           div
-            input.h-5.m-1(type="text" name="plugin")
+            input.h-5.m-1(type="text" name="plugin" data-testid="plugin")
             label.inline-block Plugin          
           div
-            input.h-5.w-5.bg-neutral-300(type="checkbox" role="switch" value="de-test-open-banking-redirect-payment-successful" name="bank")
+            input.h-5.w-5.bg-neutral-300(type="checkbox" role="switch" value="de-test-open-banking-redirect-payment-successful" name="bank" data-testid="prefilled-bank")
             label.inline-block Prefilled bank                 
           div
-            select.m-1(name='locale')
+            select.m-1(name='locale' data-testid="langage")
               option(value='de') DE
               option(value='en') EN
               option(value='nl') NL
