@@ -9,6 +9,8 @@ block content
         const form = new FormData(document.getElementById("myForm"))
         const data = Object.fromEntries(form.entries())
 
+        data.origin = window.location.origin
+
         fetch(`/ais`,
         { method: 'POST', headers: {"Content-Type": "application/json"}, body: JSON.stringify(data) })
         .then(response => response.json())
@@ -24,11 +26,14 @@ block content
             input.h-5.w-5.bg-neutral-300(type="checkbox" role="switch" value="de-test-open-banking-redirect-payment-successful" name="bank")
             label.inline-block Prefilled bank                 
           div
+            input(type="url" pattern="https?://.+" name="resultCallbackUrl" size="30")
+            label.m-1.inline-block Override resultCallbackUrl
+          div
             select.m-1(name='locale')
               option(value='de') DE
               option(value='en') EN
               option(value='nl') NL
-            label.inline-block Locale                
+            label.inline-block Locale        
           div                    
             button.w-full.h-10.m-2(type="button" onClick="ais()" data-testid="ais-button") Start AIS
     div

@@ -190,9 +190,9 @@ router.post('/ais', async (req, res) => {
     },
     ...(reqData.locale ? { locale: reqData.locale } : {}),
     permissions: ['identity'],
-    successCallbackUrl: 'http://localhost:3335/callback/success',
-    errorCallbackUrl: 'http://localhost:3335/callback/error',
-    resultCallbackUrl: 'http://host.docker.internal:3335/callback/data',
+    successCallbackUrl: reqData.origin + '/callback/success',
+    errorCallbackUrl: reqData.origin + '/callback/error',
+    resultCallbackUrl: reqData.resultCallbackUrl || reqData.origin + '/callback/data',
     metadata: {
       test: 1,
     },
