@@ -188,6 +188,10 @@ router.post('/ais', async (req, res) => {
       email: reqData.email === 'true' ? randomMail : '',
       bankId: reqData.bank,
     },
+    shop: {
+      websiteUrl: 'https://www.getivy.io',
+      name: "Ivy's Demo Store",
+    },
     ...(reqData.locale ? { locale: reqData.locale } : {}),
     permissions: ['identity'],
     successCallbackUrl: reqData.origin + '/callback/success',
