@@ -23,7 +23,7 @@ block content
         { method: 'POST' })
         .then(response => response.json())
         .then(data => {
-          startIvyCheckout(data.url, "popup")
+          startIvyCheckout(data.url)
         })
        }
 
@@ -31,7 +31,7 @@ block content
         fetch(`/checkout?guest=true&plugin=${plugin}&express=false&${broken ? 'broken=true' : ''}&handshake=${handshake}`, { method: 'POST' })
         .then(response => response.json())
         .then(data => {
-          startIvyCheckout(data.url, "popup")
+          startIvyCheckout(data.url)
         })
        }
 
