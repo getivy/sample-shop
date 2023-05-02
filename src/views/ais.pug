@@ -1,7 +1,7 @@
 extends _partials/layout
 
 block scripts
-  script(src=cdnUrl + "/button.js")
+  script(src=cdnUrl + "/data-session.js")
 
 block content
     script.
@@ -14,9 +14,8 @@ block content
         fetch(`/ais`,
         { method: 'POST', headers: {"Content-Type": "application/json"}, body: JSON.stringify(data) })
         .then(response => response.json())
-        .then(data => {
-          console.log(data)
-          window.location.href = data.redirectUrl
+        .then(responseJson => {
+          startDataSession(responseJson.redirectUrl)
         })
        }
     div
