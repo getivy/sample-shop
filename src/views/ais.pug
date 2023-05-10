@@ -36,6 +36,12 @@ block content
               option(value='en') EN
               option(value='nl') NL
             label.inline-block Locale        
+          div
+            select.m-1(name='permissions')
+              option(value='identity') Identity
+              option(value='balance') balance
+              option(value='match_identity') match_identity
+            label.inline-block Permissions             
           div                    
             button.w-full.h-10.m-2(type="button" onClick="ais()" data-testid="ais-button") Start AIS
     div

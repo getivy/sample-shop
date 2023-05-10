@@ -193,8 +193,20 @@ router.post('/ais', async (req, res) => {
       websiteUrl: 'https://www.getivy.io',
       name: "Ivy's Demo Store",
     },
+    ...(reqData.permissions === 'match_identity' && {
+      matchData: {
+        financialAddress: {
+          type: 'iban',
+          iban: {
+            accountHolderName: 'Hans Peter',
+            bic: '123',
+            iban: '123',
+          },
+        },
+      },
+    }),
     ...(reqData.locale ? { locale: reqData.locale } : {}),
-    permissions: ['identity'],
+    permissions: [reqData.permissions],
     successCallbackUrl: reqData.origin + '/callback/success',
     errorCallbackUrl: reqData.origin + '/callback/error',
     resultCallbackUrl: reqData.resultCallbackUrl || reqData.origin + '/callback/data',
