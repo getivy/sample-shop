@@ -1,4 +1,5 @@
 const path = require('path')
+require('express-async-errors')
 const express = require('express')
 const bodyParser = require('body-parser')
 const compression = require('compression')
