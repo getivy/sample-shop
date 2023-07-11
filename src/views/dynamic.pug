@@ -50,6 +50,9 @@ block content
             input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="guest" data-testid="guest-checkout")
             label.inline-block Guest (not allowed with express)
           div
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="disableBankSelection" data-testid="disableBankSelection-checkout")
+            label.inline-block Disable bank selection
+          div
             input.h-5.w-5.bg-neutral-300(type="checkbox" value="true" role="switch" name="broken" data-testid="broken")
             label.inline-block Broken
           div
@@ -71,6 +74,6 @@ block content
               option(value='nl') NL
             label.inline-block Locale                
           div                    
-            button(type="button" onClick="checkout()" data-cart-value="200" data-locale="en" data-position="above" data-testid="checkout-guest").ivy-checkout-button
+            button(type="button" onClick="checkout()" data-cart-value="200" data-locale="en" data-position="above" data-testid="checkout-button").ivy-checkout-button
     div
       span Version: !{version}    
