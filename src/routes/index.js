@@ -70,6 +70,7 @@ router.post('/checkout', async (req, res) => {
       express: reqData.express,
       handshake: reqData.handshake,
       guest: reqData.guest,
+      disableBankSelection: reqData.disableBankSelection,
       referenceId: generateReferenceId,
       category: '5999',
       price: {
