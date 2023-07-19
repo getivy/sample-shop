@@ -70,6 +70,19 @@ router.post('/checkout', async (req, res) => {
       express: reqData.express,
       handshake: reqData.handshake,
       guest: reqData.guest,
+      ...(reqData.direct && {
+        paymentMode: 'direct',
+        settlementDestination: {
+          financialAddress: {
+            type: 'iban',
+            iban: {
+              iban: 'AV123',
+              accountHolderName: 'Hans Zimmer',
+            },
+          },
+          reference: 'superRef',
+        },
+      }),
       disableBankSelection: reqData.disableBankSelection,
       referenceId: generateReferenceId,
       category: '5999',
