@@ -71,11 +71,17 @@ block content
             input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="direct" data-testid="direct-checkout")
             label.inline-block Direct Settlement                      
           div
-            select.m-1(name='locale' data-testid="langage")
+            select.m-1(name='locale' data-testid="language")
               option(value='de') DE
               option(value='en') EN
               option(value='nl') NL
-            label.inline-block Locale                
+            label.inline-block Locale  
+          div
+            select.m-1(name='incentiveMode' data-testid="incentiveMode")
+              option(value='sustainable') Sustainable
+              option(value='white_label') White Label
+              option(value='cashback') Cashback
+            label.inline-block Incentive Mode              
           div                    
             button(type="button" onClick="checkout()" data-cart-value="200" data-locale="en" data-position="above" data-testid="checkout-button").ivy-checkout-button
     div
