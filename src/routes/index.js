@@ -103,10 +103,11 @@ router.post('/checkout', async (req, res) => {
         email: reqData.email === 'true' ? randomMail : '',
         bankId: reqData.bank,
       },
-      ...(reqData.locale ? { locale: reqData.locale } : {}),
+      ...(reqData.locale && { locale: reqData.locale }),
       required: {
         phone: reqData.phoneRequired,
       },
+      incentiveMode: reqData.incentiveMode,
     }
 
     console.log('begin request')
