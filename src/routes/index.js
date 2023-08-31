@@ -61,7 +61,7 @@ router.post('/checkout', async (req, res) => {
 
   const reqData = Object.keys(req.body).length > 0 ? req.body : req.query
 
-  const isUsCheckout = reqData.bank === 'us_bank_account'
+  const isUsCheckout = reqData.bank === 'us-usbanks'
 
   try {
     const data = {
