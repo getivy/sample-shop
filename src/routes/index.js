@@ -65,7 +65,7 @@ router.post('/checkout', async (req, res) => {
 
   try {
     const data = {
-      market: reqData.market,
+      market: reqData.market || "DE",
       verificationToken: 'TEST',
       plugin: reqData.plugin,
       express: reqData.express,
