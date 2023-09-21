@@ -65,6 +65,7 @@ router.post('/checkout', async (req, res) => {
 
   try {
     const data = {
+      market: 'SE',
       verificationToken: 'TEST',
       plugin: reqData.plugin,
       express: reqData.express,
@@ -199,7 +200,7 @@ router.post('/ais', async (req, res) => {
   const reqData = Object.keys(req.body).length > 0 ? req.body : req.query
   const data = {
     referenceId: generateReferenceId,
-    market: reqData.market,
+    market: 'SE',
     prefill: {
       email: reqData.email === 'true' ? randomMail : '',
       bankId: reqData.bank,

@@ -21,7 +21,7 @@ block content
       function checkout(event) { 
         const form = new FormData(document.getElementById("myForm"))
         const data = Object.fromEntries(form.entries())
-
+        console.log("the form data before sending it:", data)
         fetch(`/checkout`,
         { method: 'POST', headers: {"Content-Type": "application/json"}, body: JSON.stringify(data) })
         .then(response => response.json())
@@ -69,7 +69,10 @@ block content
             label.inline-block Prefilled bank       
           div
             input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="direct" data-testid="direct-checkout")
-            label.inline-block Direct Settlement                      
+            label.inline-block Direct Settlement
+          div
+            input.h-5.m-1(type="text" name="data-market" data-testid="data" value="GB")
+            label.inline-block Market
           div
             select.m-1(name='locale' data-testid="language")
               option(value='de') DE
@@ -80,7 +83,7 @@ block content
               option(value='it') IT
               option(value='pt') PT
               option(value='sv') SV
-            label.inline-block Locale  
+            label.inline-block Locale
           div
             select.m-1(name='incentiveMode' data-testid="incentiveMode")
               option(value='sustainable') Sustainable
@@ -88,6 +91,6 @@ block content
               option(value='cashback') Cashback
             label.inline-block Incentive Mode              
           div                    
-            button(type="button" onClick="checkout()" data-cart-value="200" data-locale="en" data-position="above" data-testid="checkout-button").ivy-checkout-button
+            button(type="button" onClick="checkout()" data-cart-value="200" data-locale="en" data-market="NL" data-position="above" data-testid="checkout-button").ivy-checkout-button
     div
       span Version: !{version}    
