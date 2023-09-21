@@ -199,7 +199,6 @@ router.post('/ais', async (req, res) => {
   const reqData = Object.keys(req.body).length > 0 ? req.body : req.query
   const data = {
     referenceId: generateReferenceId,
-    market: 'SE',
     prefill: {
       email: reqData.email === 'true' ? randomMail : '',
       bankId: reqData.bank,
