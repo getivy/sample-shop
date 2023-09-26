@@ -65,7 +65,7 @@ router.post('/checkout', async (req, res) => {
 
   try {
     const data = {
-      market: reqData.market || "DE",
+      market: reqData.market || 'DE',
       verificationToken: 'TEST',
       plugin: reqData.plugin,
       express: reqData.express,
@@ -225,6 +225,7 @@ router.post('/ais', async (req, res) => {
     successCallbackUrl: reqData.origin + '/callback/success',
     errorCallbackUrl: reqData.origin + '/callback/error',
     resultCallbackUrl: reqData.resultCallbackUrl || reqData.origin + '/callback/data',
+    market: req.market || 'DE',
     metadata: {
       test: 1,
     },
