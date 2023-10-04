@@ -65,7 +65,25 @@ block content
             input.h-5.m-1(type="text" name="plugin" data-testid="plugin")
             label.inline-block Plugin  
           div
-            input.h-5.m-1(type="text" name="market" data-testid="market")
+            select.m-1(name='market' data-testid="market")
+              option(value='') 
+              option(value='BE') BE
+              option(value='DE') DE
+              option(value='DK') DK 
+              option(value='EE') EE
+              option(value='ES') ES
+              option(value='FI') FI
+              option(value='FR') FR
+              option(value='GB') GB
+              option(value='IE') IE
+              option(value='IT') IT
+              option(value='LT') LT
+              option(value='LV') LV
+              option(value='NL') NL
+              option(value='NO') NO
+              option(value='PL') PL
+              option(value='PT') PT
+              option(value='SE') SE
             label.inline-block Market          
           div
             input.h-5.w-5.bg-neutral-300(type="checkbox" role="switch" value="de-tinktestsuccess" name="bank" data-testid="prefilled-bank")
