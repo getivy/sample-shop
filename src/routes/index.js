@@ -91,7 +91,7 @@ router.post('/checkout', async (req, res) => {
         totalNet: cartPrice.totalNet,
         vat: cartPrice.vat,
         shipping: cartPrice.shipping,
-        total: cartPrice.total,
+        total: reqData.amount ?? cartPrice.total,
         subTotal: cartPrice.subtotal,
         currency: reqData.currency ?? 'EUR',
       },
@@ -173,6 +173,14 @@ router.get('/bits-success', (req, res) => {
 router.get('/bits-failure', (req, res) => {
   res.render('shop-bits-failure', {
     title: 'Bits Ivy Store',
+  })
+})
+
+router.get('/klarna', (req, res) => {
+  res.render('klarna', {
+    title: 'Ivy Demo Store',
+    cdnUrl: config.IVY_CDN_URL,
+    version: process.env.npm_package_version,
   })
 })
 

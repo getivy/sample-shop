@@ -1,0 +1,43 @@
+extends _partials/layout
+
+block scripts
+  script(src=cdnUrl + "/button.js")
+
+block content
+
+
+
+    script.
+      function checkout(event) { 
+        const form = new FormData(document.getElementById("myForm"))
+        const data = Object.fromEntries(form.entries())
+        data.amount = 10
+        fetch(`/checkout`,
+        { method: 'POST', headers: {"Content-Type": "application/json"}, body: JSON.stringify(data) })
+        .then(response => response.json())
+        .then(data => {
+          startIvyCheckout(data.url)
+        })
+       }
+    div
+      form#myForm
+        div.justify-center
+          div.hidden
+            select.m-1(name='currency' data-testid="currency")
+              option(value='USD' selected='true') $
+            label.inline-block Currency
+
+          div.hidden
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" checked name="disableBankSelection" data-testid="disableBankSelection-checkout")
+            label.inline-block Disable bank selection
+  
+          div.hidden
+            input.h-5.w-5.bg-neutral-300(type="checkbox" role="switch" checked value="us-bofa" name="bank" data-testid="prefilled-bank")
+            label.inline-block Prefilled bank       
+          div.hidden
+            input.h-5.w-5.bg-neutral-300(type="checkbox" checked="true" value=1 role="switch" name="direct" data-testid="direct-checkout")
+            label.inline-block Direct Settlement                               
+          div                    
+            button(type="button" onClick="checkout()" data-cart-value="200" data-locale="en" data-position="above" data-testid="checkout-button").ivy-checkout-button
+    div
+      span Version: !{version}    
