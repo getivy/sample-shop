@@ -187,6 +187,14 @@ router.get('/klarna', (req, res) => {
   })
 })
 
+router.get('/klarna1', (req, res) => {
+  res.render('klarna1', {
+    title: 'Ivy Demo Store',
+    cdnUrl: config.IVY_CDN_URL,
+    version: process.env.npm_package_version,
+  })
+})
+
 router.get('/dynamic', (req, res) => {
   res.render('dynamic', {
     title: 'Ivy Demo Store',
