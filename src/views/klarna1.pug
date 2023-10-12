@@ -22,7 +22,7 @@ body.container.pt-10.font-light.mx-auto.max-w-4xl
 
         data.origin = window.location.origin
         data.amount = 10
-        data.successCallbackUrl = '/klarna/success'
+        data.successCallbackUrl = '/klarna1/success'
 
         fetch(`/checkout`,
         { method: 'POST', headers: {"Content-Type": "application/json"}, body: JSON.stringify(data) })
