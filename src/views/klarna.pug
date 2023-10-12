@@ -1,17 +1,38 @@
-extends _partials/layout
-
-block scripts
+doctype html
+head
+  title Ivy Test Shop
+  meta(charset='UTF-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Epilogue")
+  script.
+    tailwind.config = {
+      corePlugins: {
+        preflight: false,
+      },
+      fontFamily: {
+        epilogue: ['Epilogue']
+      }
+    }
+  script(src='https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp')
   script(src=cdnUrl + "/button.js")
+  style.
+    h1 {
+      font-family: "Epilogue";
+    }
 
-block content
-
-
+body.container.pt-10.font-light.mx-auto.max-w-4xl
+  h1.text-3xl.font-medium.mb-3.text-left.font-epilogue Ivy Test Shop
 
     script.
       function checkout(event) { 
         const form = new FormData(document.getElementById("myForm"))
         const data = Object.fromEntries(form.entries())
+
+        data.origin = window.location.origin
         data.amount = 10
+        data.successCallbackUrl = '/klarna/success'
+
         fetch(`/checkout`,
         { method: 'POST', headers: {"Content-Type": "application/json"}, body: JSON.stringify(data) })
         .then(response => response.json())
@@ -19,7 +40,8 @@ block content
           startIvyCheckout(data.url)
         })
        }
-    div
+
+  div
       form#myForm
         div.justify-center
           div.hidden
@@ -28,16 +50,81 @@ block content
             label.inline-block Currency
 
           div.hidden
+            select.m-1(name='locale' data-testid="language")
+              option(value='de') DE
+              option(value='en' selected="selected") EN
+              option(value='nl') NL
+              option(value='fr') FR
+              option(value='es') ES
+              option(value='it') IT
+              option(value='pt') PT
+              option(value='sv') SV
+            label.inline-block Locale            
+
+          div.hidden
+            select.m-1(name='incentiveMode' data-testid="incentiveMode")
+              option(value='sustainable') Sustainable
+              option(value='white_label' selected='true') White Label
+              option(value='cashback') Cashback
+            label.inline-block Incentive Mode                    
+
+          div.hidden
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 checked role="switch" name="guest" data-testid="guest-checkout")
+            label.inline-block Guest (not allowed with express)            
+
+          div.hidden
             input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" checked name="disableBankSelection" data-testid="disableBankSelection-checkout")
             label.inline-block Disable bank selection
   
           div.hidden
-            input.h-5.w-5.bg-neutral-300(type="checkbox" role="switch" checked value="us-bofa" name="bank" data-testid="prefilled-bank")
+            input.h-5.w-5.bg-neutral-300(type="checkbox" role="switch" checked value="us-mock" name="bank" data-testid="prefilled-bank")
             label.inline-block Prefilled bank       
           div.hidden
             input.h-5.w-5.bg-neutral-300(type="checkbox" checked="true" value=1 role="switch" name="direct" data-testid="direct-checkout")
             label.inline-block Direct Settlement                               
-          div                    
-            button(type="button" onClick="checkout()" data-cart-value="200" data-locale="en" data-position="above" data-testid="checkout-button").ivy-checkout-button
-    div
-      span Version: !{version}    
+
+          div.flex.flex-row.gap-4
+            div(class="rounded-full self-center bg-stone-100 h-8 w-8")
+            div(class="h-2 self-center bg-stone-100 rounded w-40")
+            div(class="rounded-full self-center bg-stone-100 h-8 w-8")
+            div(class="h-2 self-center bg-stone-100 rounded w-40")
+            div(class="rounded-full self-center bg-stone-100 h-8 w-8")
+            div(class="h-2 self-center bg-stone-100 rounded w-40")
+            div(class="rounded-full self-center bg-stone-300 h-8 w-8")
+            div(class="h-2 self-center bg-stone-300 rounded w-40")     
+
+          div.flex.flex-row.gap-4.pt-6
+            div.bg-stone-300.rounded-lg
+              div
+                img.m-4.w-80(src="/klarna/headphones.svg")
+
+            div.flex.flex-col.gap-4.ml-6
+              div(class="h-10 rounded-full bg-stone-300 rounded w-80")
+              div(class="h-8 rounded-full bg-stone-300 rounded w-60")
+              div(class="h-8 rounded-full bg-stone-300 rounded w-60")
+
+              div.flex.flex-row.gap-4.mt-6
+                div(class="h-8 rounded-full bg-stone-300 rounded w-12")
+                div(class="h-8 rounded-full bg-stone-100 rounded w-12")
+                div(class="h-8 rounded-full bg-stone-100 rounded w-12")
+                div(class="h-8 rounded-full bg-stone-100 rounded w-12")
+                div(class="h-8 rounded-full bg-stone-300 rounded w-12")
+                div(class="h-8 rounded-full bg-stone-300 rounded w-12 ml-10")
+
+              div.flex.flex-row.gap-4.mt-2
+                div(class="h-4 rounded-full bg-stone-300 rounded w-40")
+                div(class="h-4 rounded-full bg-stone-300 rounded w-60")
+
+              div.flex.flex-row.gap-4.mt-2
+                div(class="h-4 rounded-full bg-stone-300 rounded w-60")
+
+              button(class="flex items-center justify-center mt-10 border-none p-1 w-72 h-14 bg-pink-300 rounded-lg" type="button" onClick="checkout()")
+                img.h-4(src="/klarna/logo.svg")
+                span.ml-2.align-middle.text-xl Pay Now
+
+          div.flex.flex-row.gap-4.mt-20  
+            div(class="h-4 rounded-full bg-stone-100 rounded w-80")
+            div(class="h-4 rounded-full bg-stone-100 rounded w-24")
+            div(class="h-4 rounded-full bg-stone-100 rounded w-10")
+            div(class="h-4 rounded-full bg-stone-100 rounded w-40")
+

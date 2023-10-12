@@ -122,6 +122,9 @@ router.post('/checkout', async (req, res) => {
         phone: reqData.phoneRequired,
       },
       incentiveMode: reqData.incentiveMode,
+      successCallbackUrl: reqData.successCallbackUrl
+        ? reqData.origin + reqData.successCallbackUrl
+        : reqData.origin + '/callback/success',
     }
 
     console.log('begin request')
