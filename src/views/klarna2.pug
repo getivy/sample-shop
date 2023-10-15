@@ -21,7 +21,7 @@ body.container.pt-10.font-light.mx-auto.max-w-4xl
         const data = Object.fromEntries(form.entries())
 
         data.origin = window.location.origin
-        data.amount = 10
+        data.amount = 12.50
         data.successCallbackUrl = '/klarna/success'
 
         fetch(`/checkout`,
