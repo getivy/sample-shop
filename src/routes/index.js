@@ -77,11 +77,11 @@ router.post('/checkout', async (req, res) => {
           financialAddress: {
             type: 'iban',
             iban: {
-              iban: 'AV123',
-              accountHolderName: 'Hans Zimmer',
+              iban: 'DE84100101234535423376',
+              accountHolderName: 'Ivy GmbH',
             },
           },
-          reference: 'superRef',
+          reference: 'TEST',
         },
       }),
       disableBankSelection: reqData.disableBankSelection,
