@@ -81,7 +81,7 @@ router.post('/checkout', async (req, res) => {
               accountHolderName: 'Ivy GmbH',
             },
           },
-          reference: 'TEST',
+          reference: 'test joshua becker',
         },
       }),
       disableBankSelection: reqData.disableBankSelection,
