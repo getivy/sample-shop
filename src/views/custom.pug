@@ -18,19 +18,33 @@ block content
     p.font-medium.mx-4.mb-6 Total !{total} € 
 
     script.
-      function checkout(event) { 
+      async function checkout(event) { 
         const form = new FormData(document.getElementById("myForm"))
         const data = Object.fromEntries(form.entries())
         console.log("the form data before sending it:", data)
-        fetch(`/checkout`,
+        const res = await fetch(`/checkout`,
         { method: 'POST', headers: {"Content-Type": "application/json"}, body: JSON.stringify(data) })
-        .then(response => response.json())
-        .then(data => {
-          startIvyCheckout(data.url)
-        })
+        if(res.ok) {
+          const json = await res.json()
+          startIvyCheckout(json.url)
+        } else {
+          console.error("Error while creating checkout session. Please check your API-Key and Webhook Signing Secret")
+        }
        }
     div
       form#myForm
+        div
+          p Please enter your API-Key and Webhook Signing Secret
+        div
+          input.h-5.m-1(type="text" name="apiKey" data-testid="apiKey" value=apiKey)
+          label.inline-block Api-Key  
+        div
+          input.h-5.m-1(type="text" name="webhookSigningSecret" data-testid="webhookSigningSecret" value=webhookSigningSecret)
+          label.inline-block Webhook Signing Secret
+        div 
+          input.hidden(type="checkbox" name="custom" value="true" checked)
+        hr
+          
         include _partials/dynamic-form
     div
       span Version: !{version}    

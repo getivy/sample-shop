@@ -63,6 +63,14 @@ router.post('/checkout', async (req, res) => {
 
   const isUsCheckout = reqData.bank === 'us-usbanks'
 
+  if (reqData.apiKey) {
+    req.app.set('customApiKey', reqData.apiKey)
+  }
+
+  if (reqData.webhookSigningSecret) {
+    req.app.set('customWebhookSigningSecret', reqData.webhookSigningSecret)
+  }
+
   try {
     const data = {
       market: reqData.market || 'DE',
@@ -122,10 +130,12 @@ router.post('/checkout', async (req, res) => {
         phone: reqData.phoneRequired,
       },
       incentiveMode: reqData.incentiveMode,
-      ...(reqData.origin && reqData.successCallbackUrl && {successCallbackUrl: reqData.successCallbackUrl
-        ? reqData.origin + reqData.successCallbackUrl
-        : reqData.origin + '/callback/success',
-      })
+      ...(reqData.origin &&
+        reqData.successCallbackUrl && {
+          successCallbackUrl: reqData.successCallbackUrl
+            ? reqData.origin + reqData.successCallbackUrl
+            : reqData.origin + '/callback/success',
+        }),
     }
 
     console.log('begin request')
@@ -137,7 +147,12 @@ router.post('/checkout', async (req, res) => {
       data,
       {
         headers: {
-          'X-Ivy-Api-Key': isUsCheckout ? config.US_IVY_API_KEY : config.IVY_API_KEY,
+          'X-Ivy-Api-Key':
+            reqData.custom === 'true'
+              ? req.app.get('customApiKey')
+              : isUsCheckout
+              ? config.US_IVY_API_KEY
+              : config.IVY_API_KEY,
         },
       }
     )
@@ -148,8 +163,8 @@ router.post('/checkout', async (req, res) => {
     })
   } catch (err) {
     console.log(err)
-    console.error(err.response.data)
-    res.status(400).send(err.response.data.message)
+    console.error(err.response?.data)
+    res.status(400).send(err.response?.data.message)
   }
 })
 
@@ -233,6 +248,20 @@ router.get('/dynamic', (req, res) => {
 router.get('/ais', (req, res) => {
   res.render('ais', {
     title: 'Ivy Demo AIS Page',
+    cdnUrl: config.IVY_CDN_URL,
+    version: process.env.npm_package_version,
+  })
+})
+
+router.get('/custom', (req, res) => {
+  const appId = req.app.get('customApiKey')?.split('.')[0]
+
+  res.render('custom', {
+    title: 'Shop: ' + appId,
+    apiKey: req.app.get('customApiKey'),
+    webhookSigningSecret: req.app.get('customWebhookSigningSecret'),
+    items: cart.items,
+    ...getCartPrice(cart),
     cdnUrl: config.IVY_CDN_URL,
     version: process.env.npm_package_version,
   })

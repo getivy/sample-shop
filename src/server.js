@@ -32,6 +32,18 @@ server.use('/webhooks', validateRequest(config.IVY_WEBHOOK_SIGNING_SECRET), webh
 server.use('/us/callback', validateRequest(config.US_IVY_WEBHOOK_SIGNING_SECRET), callbacks)
 server.use('/us/webhooks', validateRequest(config.US_IVY_WEBHOOK_SIGNING_SECRET), webhookRoutes)
 
+//Custom shop testing
+server.use(
+  '/custom/callback',
+  (req, res, next) => validateRequest(req.app.get('customWebhookSigningSecret'))(req, res, next),
+  callbacks
+)
+server.use(
+  '/custom/webhooks',
+  (req, res, next) => validateRequest(req.app.get('customWebhookSigningSecret'))(req, res, next),
+  webhookRoutes
+)
+
 module.exports = async () => {
   server.listen(config.PORT, () => {
     console.log(`Ivy sample Shop listening at http://localhost:${config.PORT}`)
