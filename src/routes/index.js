@@ -127,7 +127,7 @@ router.post('/checkout', async (req, res) => {
       },
       ...(reqData.locale && { locale: reqData.locale }),
       required: {
-        phone: reqData.phoneRequired,
+        phone: Boolean(reqData.phoneRequired),
       },
       incentiveMode: reqData.incentiveMode,
       ...(reqData.origin &&
