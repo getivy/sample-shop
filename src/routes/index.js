@@ -26,6 +26,16 @@ router.get('/', (req, res) => {
   })
 })
 
+router.get('/iframe', (req, res) => {
+  res.render('iframe-view', {
+    title: 'Ivy Demo Store',
+    items: cart.items,
+    ...getCartPrice(cart),
+    cdnUrl: config.IVY_CDN_URL,
+    version: process.env.npm_package_version,
+  })
+})
+
 router.get('/pay-by-link', (req, res) => {
   res.render('pay-by-link', {
     title: 'Pay by link',
