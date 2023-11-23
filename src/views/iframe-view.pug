@@ -1,0 +1,61 @@
+extends _partials/layout
+
+block scripts
+  script(src=cdnUrl + "/button.js")
+
+block content
+  each item in items
+    .p-4.flex.flex-nowrap.items-center
+      p.font-medium.mr-4 !{item.amount}x
+      img(src=item.image).w-20.h-20.object-cover.rounded.drop-shadow-lg
+      p.font-medium.mx-4.grow !{item.name}
+      p.font-medium.mx-4.w-20 !{item.price_total} €
+  hr.mb-4
+  .p-4.flex.flex-col.justify-end.items-end.column
+    p.mx-4.mb-2 Subtotal !{subTotal} € 
+    p.mx-4.mb-2 Shipping !{shipping} €
+    p.font-medium.mx-4.mb-6 Total !{total} € 
+
+    script.
+      function onClick() { 
+        fetch('/checkout?guest=true&incentiveMode=white_label&market=DE', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+          var iframe = document.createElement('iframe');
+          iframe.src = data.url;
+          document.body.appendChild(iframe);
+        })
+      }
+    
+    script.
+      function receiveMessage(event) {
+        if (event.origin !== ('https://checkout.getivy.de' || 'https://checkout.sand.getivy.de' || 'https://checkout.stage.getivy.de' || 'https://checkout.dev.getivy.de')) {
+          return;
+        }
+        
+        // Read more about the message format here: 
+        const { source, type, value, redirectUrl, referenceId } = JSON.parse(event.data);
+        
+        if (source !== 'ivy' || type !== 'iframe') {
+          return;
+        }
+        
+        if (value === 'success') {
+          // Handle success response
+          // Use the referenceId to retrieve any more specific results with a server to server call
+          console.log("User paid successfully", referenceId, redirectUrl);
+          window.location.href = redirectUrl;
+        } else if (value === 'error') {
+          // Handle error response
+          console.log("User closed Ivy Checkout");
+          window.location.href = redirectUrl;
+        } else {
+          // Something went wrong
+        }
+      }
+    
+    script.
+      window.addEventListener('message', receiveMessage, false)
+          
+    div.w-80
+      button(type="button" onClick='onClick()' data-market="DE" data-variant="white-label" data-locale="en" data-position="above" data-cart-value=96.18).ivy-checkout-button
