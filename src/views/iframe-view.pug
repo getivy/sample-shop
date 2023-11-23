@@ -22,7 +22,7 @@ block content
         .then(response => response.json())
         .then(data => {
           var iframe = document.createElement('iframe');
-          iframe.src = data.url;
+          iframe.src = data.url + '?iframe=true';
           document.body.appendChild(iframe);
         })
       }
