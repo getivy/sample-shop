@@ -23,6 +23,9 @@ block content
         .then(data => {
           var iframe = document.createElement('iframe');
           iframe.src = data.url + '&iframe=true';
+          iframe.style.width = '100%';
+          iframe.style.height = '650px';
+          iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups allow-forms allow-popups-to-escape-sandbox allow-top-navigation');
           document.body.appendChild(iframe);
         })
       }
