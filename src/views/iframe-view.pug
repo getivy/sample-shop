@@ -32,9 +32,8 @@ block content
     
     script.
       function receiveMessage(event) {
-        if (event.origin !== ('https://checkout.getivy.de' || 'https://checkout.sand.getivy.de' || 'https://checkout.stage.getivy.de' || 'https://checkout.dev.getivy.de')) {
-          return;
-        }
+
+        console.log(event)
         
         // Read more about the message format here: 
         const { source, type, value, redirectUrl, referenceId } = JSON.parse(event.data);
