@@ -28,10 +28,6 @@ server.use(routes)
 server.use('/callback', validateRequest(config.IVY_WEBHOOK_SIGNING_SECRET), callbacks)
 server.use('/webhooks', validateRequest(config.IVY_WEBHOOK_SIGNING_SECRET), webhookRoutes)
 
-//Stuff for us sample shop
-server.use('/us/callback', validateRequest(config.US_IVY_WEBHOOK_SIGNING_SECRET), callbacks)
-server.use('/us/webhooks', validateRequest(config.US_IVY_WEBHOOK_SIGNING_SECRET), webhookRoutes)
-
 //Custom shop testing
 server.use(
   '/custom/callback',

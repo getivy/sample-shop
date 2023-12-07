@@ -1,7 +1,5 @@
 const express = require('express')
-const axios = require('axios')
 const router = express.Router()
-const config = require('../config')
 const { sign } = require('../utils/sign')
 const shippingMethods = require('../data/shipping.json')
 const vouchers = require('../data/voucher.json')

@@ -71,8 +71,6 @@ router.post('/checkout', async (req, res) => {
 
   const reqData = Object.keys(req.body).length > 0 ? req.body : req.query
 
-  const isUsCheckout = reqData.bank === 'us-usbanks'
-
   if (reqData.apiKey) {
     req.app.set('customApiKey', reqData.apiKey)
   }
@@ -158,11 +156,7 @@ router.post('/checkout', async (req, res) => {
       {
         headers: {
           'X-Ivy-Api-Key':
-            reqData.custom === 'true'
-              ? req.app.get('customApiKey')
-              : isUsCheckout
-              ? config.US_IVY_API_KEY
-              : config.IVY_API_KEY,
+            reqData.custom === 'true' ? req.app.get('customApiKey') : config.IVY_API_KEY,
         },
       }
     )
