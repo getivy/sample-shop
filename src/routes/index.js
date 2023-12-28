@@ -80,6 +80,24 @@ router.post('/checkout', async (req, res) => {
   }
 
   try {
+    const financialAddress =
+      reqData.currency === 'EUR'
+        ? {
+            type: 'iban',
+            iban: {
+              iban: 'DE84100101234535423376',
+              accountHolderName: 'Ivy GmbH',
+            },
+          }
+        : {
+            type: 'sort_code',
+            sortCode: {
+              accountNumber: '36404268',
+              sortCode: '309349',
+              accountHolderName: 'Ivy GmbH',
+            },
+          }
+
     const data = {
       market: reqData.market || 'DE',
       verificationToken: 'TEST',
@@ -90,13 +108,7 @@ router.post('/checkout', async (req, res) => {
       ...(reqData.direct && {
         paymentMode: 'direct',
         settlementDestination: {
-          financialAddress: {
-            type: 'iban',
-            iban: {
-              iban: 'DE84100101234535423376',
-              accountHolderName: 'Ivy GmbH',
-            },
-          },
+          financialAddress,
           reference: 'test joshua becker',
         },
       }),
