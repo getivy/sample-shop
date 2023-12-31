@@ -92,9 +92,9 @@ router.post('/checkout', async (req, res) => {
         : {
             type: 'sort_code',
             sortCode: {
-              accountNumber: '36404268',
-              sortCode: '309349',
-              accountHolderName: 'Ivy GmbH',
+              accountNumber: '68209296',
+              sortCode: '23-14-70',
+              accountHolderName: 'Ivy',
             },
           }
 
