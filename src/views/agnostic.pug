@@ -6,15 +6,15 @@ block scripts
 block content
   each item in items
     .p-4.flex.flex-nowrap.items-center
-      p.font-medium.mr-4 !{item.amount}x
+      p.font-medium.mr-12 !{item.amount}x
       img(src=item.image).w-20.h-20.object-cover.rounded.drop-shadow-lg
-      p.font-medium.mx-4.grow !{item.name}
-      p.font-medium.mx-4.w-20 !{item.price_total} €
+      p.font-medium.mx-12.grow !{item.name}
+      p.font-medium.mx-4.w-20 !{item.price_total.toFixed(2)} €
 
   hr.mb-4
   .p-4.flex.flex-col.justify-end.items-end.column
-    p.mx-4.mb-2 Subtotal !{subtotal} € 
-    p.font-medium.mx-4.mb-6 Total !{total} € 
+    p.mx-4.mb-2 Subtotal !{subtotal.toFixed(2)} € 
+    p.font-medium.mx-4.mb-6 Total !{total.toFixed(2)} € 
 
     script.
       function checkout(event) { 
