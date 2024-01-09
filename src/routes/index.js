@@ -3,6 +3,7 @@ const axios = require('axios')
 const router = express.Router()
 const config = require('../config')
 const cart = require('../data/cart.json')
+const agnostic_cart = require('../data/agnostic-cart.json')
 const bits_cart = require('../data/bits-cart.json')
 const { getCartPrice } = require('../utils/getCartPrice')
 
@@ -256,6 +257,16 @@ router.get('/dynamic', (req, res) => {
     title: 'Ivy Demo Store',
     items: cart.items,
     ...getCartPrice(cart),
+    cdnUrl: config.IVY_CDN_URL,
+    version: process.env.npm_package_version,
+  })
+})
+
+router.get('/agnostic', (_, res) => {
+  res.render('agnostic', {
+    title: 'Ivy Demo Store',
+    items: agnostic_cart.items,
+    ...getCartPrice(agnostic_cart),
     cdnUrl: config.IVY_CDN_URL,
     version: process.env.npm_package_version,
   })

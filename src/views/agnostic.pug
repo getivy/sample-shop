@@ -1,0 +1,35 @@
+extends _partials/layout
+
+block scripts
+  script(src=cdnUrl + "/button.js")
+
+block content
+  each item in items
+    .p-4.flex.flex-nowrap.items-center
+      p.font-medium.mr-4 !{item.amount}x
+      img(src=item.image).w-20.h-20.object-cover.rounded.drop-shadow-lg
+      p.font-medium.mx-4.grow !{item.name}
+      p.font-medium.mx-4.w-20 !{item.price_total} €
+
+  hr.mb-4
+  .p-4.flex.flex-col.justify-end.items-end.column
+    p.mx-4.mb-2 Subtotal !{subtotal} € 
+    p.font-medium.mx-4.mb-6 Total !{total} € 
+
+    script.
+      function checkout(event) { 
+        const form = new FormData(document.getElementById("myForm"))
+        const data = Object.fromEntries(form.entries())
+        console.log("the form data before sending it:", data)
+        fetch(`/checkout`,
+        { method: 'POST', headers: {"Content-Type": "application/json"}, body: JSON.stringify(data) })
+        .then(response => response.json())
+        .then(data => {
+          startIvyCheckout(data.url)
+        })
+       }
+    div
+      form#myForm
+        include _partials/agnostic-form
+    div
+      span Version: !{version}    

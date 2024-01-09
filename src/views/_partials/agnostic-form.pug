@@ -1,0 +1,75 @@
+div.justify-center
+          div
+            select.m-1(name='currency' data-testid="currency")
+              option(value='EUR') €
+              option(value='USD') $
+              option(value='GBP') £
+              option(value='DKK') DKK
+              option(value='NOK') NOK
+              option(value='SEK') SEK
+              option(value='PLN') zł
+              option(value='CZK') Kč
+              option(value='HUF') Ft  
+            label.inline-block Currency
+          div
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="express" data-testid="express-checkout")
+            label.inline-block Express
+          div
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="handshake" data-testid="handshake")
+            label.inline-block Handshake
+          div
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="guest" data-testid="guest-checkout")
+            label.inline-block Guest (not allowed with express)
+          div
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="disableBankSelection" data-testid="disableBankSelection-checkout")
+            label.inline-block Disable bank selection
+          div
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value="true" role="switch" name="broken" data-testid="broken")
+            label.inline-block Broken
+          div
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value="true" role="switch" name="email" data-testid="prefilled-email")
+            label.inline-block Email
+          div
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="phoneRequired" data-testid="phone-required")
+            label.inline-block Phone required (only express)           
+          div
+            select.m-1(name='market' data-testid="market")
+              option(value='') 
+              option(value='AT') AT
+              option(value='BE') BE
+              option(value='DE') DE
+              option(value='DK') DK 
+              option(value='EE') EE
+              option(value='ES') ES
+              option(value='FI') FI
+              option(value='FR') FR
+              option(value='GB') GB
+              option(value='IE') IE
+              option(value='IT') IT
+              option(value='LT') LT
+              option(value='LV') LV
+              option(value='NL') NL
+              option(value='NO') NO
+              option(value='PL') PL
+              option(value='PT') PT
+              option(value='SE') SE
+            label.inline-block Market          
+          div
+            input.h-5.w-5.bg-neutral-300(type="checkbox" role="switch" value="de-testbank-embedded" name="bank" data-testid="prefilled-bank")
+            label.inline-block Prefilled bank       
+          div
+            input.h-5.w-5.bg-neutral-300(type="checkbox" value=1 role="switch" name="direct" data-testid="direct-checkout")
+            label.inline-block Direct Settlement
+          div
+            select.m-1(name='locale' data-testid="language")
+              option(value='de') DE
+              option(value='en' selected="selected") EN
+              option(value='nl') NL
+              option(value='fr') FR
+              option(value='es') ES
+              option(value='it') IT
+              option(value='pt') PT
+              option(value='sv') SV
+            label.inline-block Locale       
+          div                    
+            button(type="button" onClick="checkout()" data-cart-value="200" data-locale="en" data-market="AT" data-position="above" data-testid="checkout-button").ivy-checkout-button
