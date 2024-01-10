@@ -162,12 +162,14 @@ router.post('/checkout', async (req, res) => {
         phone: Boolean(reqData.phoneRequired),
       },
       incentiveMode: reqData.incentiveMode,
-      ...(reqData.origin &&
-        reqData.successCallbackUrl && {
-          successCallbackUrl: reqData.successCallbackUrl
-            ? reqData.origin + reqData.successCallbackUrl
-            : reqData.origin + '/callback/success',
-        }),
+      ...(reqData.origin && {
+        successCallbackUrl: reqData.successCallbackUrl
+          ? reqData.origin + reqData.successCallbackUrl
+          : reqData.origin + '/callback/success',
+        errorCallbackUrl: reqData.errorCallbackUrl
+          ? reqData.origin + reqData.errorCallbackUrl
+          : reqData.origin + '/callback/error',
+      }),
     }
 
     console.log('begin request')
