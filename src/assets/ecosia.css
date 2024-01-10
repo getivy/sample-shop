@@ -19,7 +19,20 @@
 #market, #locale, #checkout {
   flex: 1;
   min-width: 160px;
+}
+
+#market {
   margin-right: 12px;
+  margin-left: 0;
+}
+
+#locale {
+  margin-right: 12px;
+  margin-left: 12px;
+}
+
+#checkout {
+  margin-right: 0;
   margin-left: 12px;
 }
 
