@@ -63,7 +63,7 @@ select:hover {
     margin-left: 0;
   }
 
-  button {
+  button.primary {
     margin-top: 30px;
     min-width: 100%;
   }
