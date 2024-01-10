@@ -1,0 +1,71 @@
+extends _partials/layout
+
+block content
+  link(rel="stylesheet", href="/ecosia.css")
+  div(style="display: flex; align-items: center; justify-content: center;")
+    div#content
+      h1.text-3xl.font-medium.mb-3 Payment Initiation - Donate 1€ to Ecosia
+      h1.text-xl.font-light.mb-3 This is a demo transaction. Use real credentials to verify your payment of 1€ and donate to Ecosia. We will only access your account once and won't store your data.
+
+      script.
+        function checkout(event) { 
+          const form = new FormData(document.getElementById("myForm"))
+          const data = Object.fromEntries(form.entries())
+
+          const request_data = {
+            currency: 'EUR',
+            amount: !{total},
+            incentiveMode: 'white_label',
+            guest: true,
+            ...data
+          }
+
+          console.log("the form data before sending it:", request_data)
+          fetch(`/checkout`,
+          { method: 'POST', headers: {"Content-Type": "application/json"}, body: JSON.stringify(request_data) })
+          .then(response => response.json())
+          .then(data => {
+            startIvyCheckout(data.url)
+          })
+        }
+      
+      div
+        form#myForm
+          div#responsive-form
+            div.flex.flex-col#market
+              label Market          
+              select(name='market' data-testid="market")
+                option(value='DE' selected="selected") DE
+                option(value='AT') AT
+                option(value='BE') BE
+                option(value='DK') DK 
+                option(value='EE') EE
+                option(value='ES') ES
+                option(value='FI') FI
+                option(value='FR') FR
+                option(value='GB') GB
+                option(value='IE') IE
+                option(value='IT') IT
+                option(value='LT') LT
+                option(value='LV') LV
+                option(value='NL') NL
+                option(value='NO') NO
+                option(value='PL') PL
+                option(value='PT') PT
+                option(value='SE') SE
+            div.flex.flex-col#locale
+              label Locale   
+              select(name='locale' data-testid="language")
+                option(value='en' selected="selected") EN
+                option(value='de') DE
+                option(value='nl') NL
+                option(value='fr') FR
+                option(value='es') ES
+                option(value='it') IT
+                option(value='pt') PT
+                option(value='sv') SV    
+            div#checkout
+              button(type="button" onClick="checkout()" data-testid="checkout-button") Try now   
+
+    div#image
+      img(src="/ecosia.png")

@@ -1,0 +1,64 @@
+#image {
+  max-width: 25%; /* Adjust as needed */
+  height: auto;
+  margin-left: 60px;
+}
+
+#image img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover; /* This will ensure that the image maintains its aspect ratio */
+}
+#responsive-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+#market, #locale, #checkout {
+  flex: 1;
+  min-width: 160px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+label {
+  color: #717171;
+  margin-bottom: 4px;
+}
+
+select {
+  border-radius: 8px;
+  border-color: #C7C7C7;
+}
+
+button {
+  background-color: #121315;
+  color: #FFFFFF;
+  border-radius: 52px;
+  padding: 12px;
+  min-width: 160px;
+}
+
+@media (max-width: 840px) {
+  div {
+    flex-direction: column;
+  }
+
+  #market, #locale, #checkout {
+    min-width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  button {
+    min-width: 100%;
+  }
+
+  #image {
+    display: none;
+  }
+}

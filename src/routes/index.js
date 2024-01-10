@@ -4,6 +4,7 @@ const router = express.Router()
 const config = require('../config')
 const cart = require('../data/cart.json')
 const agnostic_cart = require('../data/agnostic-cart.json')
+const ecosia_cart = require('../data/ecosia-cart.json')
 const bits_cart = require('../data/bits-cart.json')
 const { getCartPrice } = require('../utils/getCartPrice')
 
@@ -264,7 +265,7 @@ router.get('/klarna1/success', onlyInternalEnv, (_, res) => {
 
 router.get('/dynamic', onlyInternalEnv, (_, res) => {
   res.render('dynamic', {
-    title: 'Ivy Demo Store',
+    title: 'Dynamic',
     items: cart.items,
     ...getCartPrice(cart),
     cdnUrl: config.IVY_CDN_URL,
@@ -274,9 +275,20 @@ router.get('/dynamic', onlyInternalEnv, (_, res) => {
 
 router.get('/agnostic', (_, res) => {
   res.render('agnostic', {
-    title: 'Ivy Demo Store',
+    title: 'Agnostic  ',
     items: agnostic_cart.items,
     ...getCartPrice(agnostic_cart),
+    cdnUrl: config.IVY_CDN_URL,
+    version: process.env.npm_package_version,
+  })
+})
+
+router.get('/ecosia', (_, res) => {
+  res.render('ecosia', {
+    title: 'Ecosia',
+    hideTitle: true,
+    items: ecosia_cart.items,
+    ...getCartPrice(ecosia_cart),
     cdnUrl: config.IVY_CDN_URL,
     version: process.env.npm_package_version,
   })
