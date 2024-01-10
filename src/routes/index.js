@@ -7,7 +7,16 @@ const agnostic_cart = require('../data/agnostic-cart.json')
 const bits_cart = require('../data/bits-cart.json')
 const { getCartPrice } = require('../utils/getCartPrice')
 
-router.get('/all-buttons', (req, res) => {
+const InternalRoute = (_, res, next) => {
+  console.log('IS_EXTERNAL:', config.IS_EXTERNAL)
+  if (config.IS_EXTERNAL === true) {
+    return res.status(404).send('Not found')
+  }
+
+  next()
+}
+
+router.get('/all-buttons', InternalRoute, (_, res) => {
   res.render('shop-with-all-buttons', {
     title: 'Ivy Demo Store',
     items: cart.items,
@@ -17,7 +26,7 @@ router.get('/all-buttons', (req, res) => {
   })
 })
 
-router.get('/', (req, res) => {
+router.get('/', InternalRoute, (_, res) => {
   res.render('shop', {
     title: 'Ivy Demo Store',
     items: cart.items,
@@ -27,7 +36,7 @@ router.get('/', (req, res) => {
   })
 })
 
-router.get('/iframe', (req, res) => {
+router.get('/iframe', InternalRoute, (_, res) => {
   res.render('iframe-view', {
     title: 'Ivy Demo Store',
     items: cart.items,
@@ -37,7 +46,7 @@ router.get('/iframe', (req, res) => {
   })
 })
 
-router.get('/pay-by-link', (req, res) => {
+router.get('/pay-by-link', InternalRoute, (_, res) => {
   res.render('pay-by-link', {
     title: 'Pay by link',
     items: cart.items,
@@ -47,7 +56,7 @@ router.get('/pay-by-link', (req, res) => {
   })
 })
 
-router.get('/callback/success', (req, res) => {
+router.get('/callback/success', (_, res) => {
   // TODO get order details
 
   res.render('success', {
@@ -59,7 +68,7 @@ router.get('/callback/success', (req, res) => {
   })
 })
 
-router.get('/callback/error', (req, res) => {
+router.get('/callback/error', (_, res) => {
   res.render('error', {
     title: 'Order Failed',
   })
@@ -185,7 +194,7 @@ router.post('/checkout', async (req, res) => {
   }
 })
 
-router.get('/qr-checkout', async (req, res) => {
+router.get('/qr-checkout', InternalRoute, async (_, res) => {
   res.render('shop-bits-cap-new', {
     title: 'Bits x Ivy Store',
     item: bits_cart,
@@ -194,25 +203,25 @@ router.get('/qr-checkout', async (req, res) => {
   })
 })
 
-router.get('/sold-out', (req, res) => {
+router.get('/sold-out', InternalRoute, (_, res) => {
   res.render('shop-bits-sold-out', {
     title: 'Bits Ivy Store',
   })
 })
 
-router.get('/bits-success', (req, res) => {
+router.get('/bits-success', InternalRoute, (_, res) => {
   res.render('shop-bits-success', {
     title: 'Bits Ivy Store',
   })
 })
 
-router.get('/bits-failure', (req, res) => {
+router.get('/bits-failure', InternalRoute, (_, res) => {
   res.render('shop-bits-failure', {
     title: 'Bits Ivy Store',
   })
 })
 
-router.get('/klarna', (req, res) => {
+router.get('/klarna', InternalRoute, (_, res) => {
   res.render('klarna', {
     title: 'Ivy Demo Store',
     cdnUrl: config.IVY_CDN_URL,
@@ -220,7 +229,7 @@ router.get('/klarna', (req, res) => {
   })
 })
 
-router.get('/klarna1', (req, res) => {
+router.get('/klarna1', InternalRoute, (_, res) => {
   res.render('klarna1', {
     title: 'Ivy Demo Store',
     cdnUrl: config.IVY_CDN_URL,
@@ -228,7 +237,7 @@ router.get('/klarna1', (req, res) => {
   })
 })
 
-router.get('/klarna2', (req, res) => {
+router.get('/klarna2', InternalRoute, (_, res) => {
   res.render('klarna2', {
     title: 'Ivy Demo Store',
     cdnUrl: config.IVY_CDN_URL,
@@ -236,7 +245,7 @@ router.get('/klarna2', (req, res) => {
   })
 })
 
-router.get('/klarna/success', (req, res) => {
+router.get('/klarna/success', InternalRoute, (_, res) => {
   res.render('klarna-success', {
     title: 'Ivy Demo Store',
     cdnUrl: config.IVY_CDN_URL,
@@ -244,7 +253,7 @@ router.get('/klarna/success', (req, res) => {
   })
 })
 
-router.get('/klarna1/success', (req, res) => {
+router.get('/klarna1/success', InternalRoute, (_, res) => {
   res.render('klarna-success', {
     title: 'Ivy Demo Store',
     cdnUrl: config.IVY_CDN_URL,
@@ -252,7 +261,7 @@ router.get('/klarna1/success', (req, res) => {
   })
 })
 
-router.get('/dynamic', (req, res) => {
+router.get('/dynamic', InternalRoute, (_, res) => {
   res.render('dynamic', {
     title: 'Ivy Demo Store',
     items: cart.items,
@@ -272,7 +281,7 @@ router.get('/agnostic', (_, res) => {
   })
 })
 
-router.get('/ais', (req, res) => {
+router.get('/ais', InternalRoute, (_, res) => {
   res.render('ais', {
     title: 'Ivy Demo AIS Page',
     cdnUrl: config.IVY_CDN_URL,
@@ -280,7 +289,7 @@ router.get('/ais', (req, res) => {
   })
 })
 
-router.get('/custom', (req, res) => {
+router.get('/custom', InternalRoute, (req, res) => {
   const appId = req.app.get('customApiKey')?.split('.')[0]
 
   res.render('custom', {
@@ -294,7 +303,7 @@ router.get('/custom', (req, res) => {
   })
 })
 
-router.post('/ais', async (req, res) => {
+router.post('/ais', InternalRoute, async (req, res) => {
   const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
 
   const reqData = Object.keys(req.body).length > 0 ? req.body : req.query
@@ -349,7 +358,7 @@ router.post('/ais', async (req, res) => {
   res.json(session)
 })
 
-router.post('/checkout-bits', async (req, res) => {
+router.post('/checkout-bits', InternalRoute, async (_, res) => {
   const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
 
   try {
