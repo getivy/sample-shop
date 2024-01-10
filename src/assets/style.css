@@ -6,3 +6,25 @@ html,
 body {
   font-family: 'Work Sans', sans-serif;
 }
+
+button {
+  background-color: #121315;
+  color: #FFFFFF;
+  border-radius: 52px;
+  padding: 12px;
+  min-width: 160px;
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  border-width: 0px;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: #333;
+}
+
+button:active {
+  transform: scale(0.98);
+  background-color: #333;
+}

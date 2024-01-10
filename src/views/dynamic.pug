@@ -21,9 +21,17 @@ block content
       function checkout(event) { 
         const form = new FormData(document.getElementById("myForm"))
         const data = Object.fromEntries(form.entries())
-        console.log("the form data before sending it:", data)
+
+        const request_data = {
+          amount: !{total},
+          origin: window.location.origin,
+          shop: !{shop},
+          ...data
+        }
+
+        console.log("the form data before sending it:", request_data)
         fetch(`/checkout`,
-        { method: 'POST', headers: {"Content-Type": "application/json"}, body: JSON.stringify(data) })
+        { method: 'POST', headers: {"Content-Type": "application/json"}, body: JSON.stringify(request_data) })
         .then(response => response.json())
         .then(data => {
           startIvyCheckout(data.url)

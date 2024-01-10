@@ -57,8 +57,9 @@ router.get('/pay-by-link', onlyInternalEnv, (_, res) => {
   })
 })
 
-router.get('/callback/success', (_, res) => {
+router.get('/callback/success', (req, res) => {
   // TODO get order details
+  const shop = req.query.shop
 
   res.render('success', {
     title: 'Order Confirmation - Success',
@@ -66,12 +67,16 @@ router.get('/callback/success', (_, res) => {
     // shippingAddress: TODO
     // billingAddress: TODO
     // billingAddress: TODO
+    shop,
   })
 })
 
-router.get('/callback/error', (_, res) => {
+router.get('/callback/error', (req, res) => {
+  const shop = req.query.shop
+
   res.render('error', {
     title: 'Order Failed',
+    shop,
   })
 })
 
@@ -165,10 +170,10 @@ router.post('/checkout', async (req, res) => {
       ...(reqData.origin && {
         successCallbackUrl: reqData.successCallbackUrl
           ? reqData.origin + reqData.successCallbackUrl
-          : reqData.origin + '/callback/success',
+          : reqData.origin + '/callback/success?shop=' + reqData.shop,
         errorCallbackUrl: reqData.errorCallbackUrl
           ? reqData.origin + reqData.errorCallbackUrl
-          : reqData.origin + '/callback/error',
+          : reqData.origin + '/callback/error?shop=' + reqData.shop,
       }),
     }
 
@@ -268,6 +273,7 @@ router.get('/klarna1/success', onlyInternalEnv, (_, res) => {
 router.get('/dynamic', onlyInternalEnv, (_, res) => {
   res.render('dynamic', {
     title: 'Dynamic',
+    shop: 'dynamic',
     items: cart.items,
     ...getCartPrice(cart),
     cdnUrl: config.IVY_CDN_URL,
@@ -277,7 +283,8 @@ router.get('/dynamic', onlyInternalEnv, (_, res) => {
 
 router.get('/agnostic', (_, res) => {
   res.render('agnostic', {
-    title: 'Agnostic  ',
+    title: 'Agnostic',
+    shop: 'agnostic',
     items: agnostic_cart.items,
     ...getCartPrice(agnostic_cart),
     cdnUrl: config.IVY_CDN_URL,
@@ -289,6 +296,7 @@ router.get('/ecosia', (_, res) => {
   res.render('ecosia', {
     title: 'Ecosia',
     hideTitle: true,
+    shop: 'ecosia',
     items: ecosia_cart.items,
     ...getCartPrice(ecosia_cart),
     cdnUrl: config.IVY_CDN_URL,
@@ -346,8 +354,8 @@ router.post('/ais', onlyInternalEnv, async (req, res) => {
     }),
     ...(reqData.locale ? { locale: reqData.locale } : {}),
     permissions: [reqData.permissions],
-    successCallbackUrl: reqData.origin + '/callback/success',
-    errorCallbackUrl: reqData.origin + '/callback/error',
+    successCallbackUrl: reqData.origin + '/callback/success?shop=ais',
+    errorCallbackUrl: reqData.origin + '/callback/error?shop=ais',
     resultCallbackUrl: reqData.resultCallbackUrl || reqData.origin + '/callback/data',
     market: req.market || 'DE',
     metadata: {
