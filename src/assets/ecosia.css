@@ -19,8 +19,8 @@
 #market, #locale, #checkout {
   flex: 1;
   min-width: 160px;
-  margin-right: 10px;
-  margin-left: 10px;
+  margin-right: 12px;
+  margin-left: 12px;
 }
 
 label {
@@ -39,6 +39,8 @@ button {
   border-radius: 52px;
   padding: 12px;
   min-width: 160px;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 14px;
 }
 
 @media (max-width: 840px) {
@@ -48,13 +50,14 @@ button {
 
   #market, #locale, #checkout {
     min-width: 100%;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 8px;
+    margin-bottom: 8px;
     margin-right: 0;
     margin-left: 0;
   }
 
   button {
+    margin-top: 30px;
     min-width: 100%;
   }
 
