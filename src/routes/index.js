@@ -8,12 +8,12 @@ const bits_cart = require('../data/bits-cart.json')
 const { getCartPrice } = require('../utils/getCartPrice')
 
 const InternalRoute = (_, res, next) => {
-  console.log('IS_EXTERNAL:', config.IS_EXTERNAL)
-  if (config.IS_EXTERNAL === true) {
-    return res.status(404).send('Not found')
+  if (config.IS_INTERNAL === true) {
+    next()
+    return
   }
 
-  next()
+  return res.status(404).send('Not found')
 }
 
 router.get('/all-buttons', InternalRoute, (_, res) => {
