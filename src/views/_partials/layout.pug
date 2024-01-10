@@ -1,6 +1,7 @@
 doctype html
 head
   title Ivy Demo Store - #{title}
+  link(rel='icon' href='/favicon.svg')
   meta(charset='UTF-8')
   meta(http-equiv='X-UA-Compatible' content='IE=edge')
   meta(name='viewport' content='width=device-width, initial-scale=1.0')
@@ -17,7 +18,7 @@ head
   block scripts
 body.font-light(style='min-height: 100vh; margin: 0px; background-color: #F9FAFA')
   div.p-4.mx-auto.max-w-6xl(style='min-height: 100vh;')
-    img(src='/ivy-logo.svg').mb-16.mt-4
+    img(src='/ivy-logo.svg').mb-16.mt-8
     if !hideTitle
       h1.text-3xl.font-medium.mb-3.text-center #{title}
     block content
