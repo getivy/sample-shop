@@ -7,7 +7,7 @@ body {
   font-family: 'Work Sans', sans-serif;
 }
 
-button {
+button.primary {
   background-color: #121315;
   color: #FFFFFF;
   border-radius: 52px;
@@ -19,12 +19,12 @@ button {
   border-width: 0px;
 }
 
-button:hover {
+button.primary:hover {
   cursor: pointer;
   background-color: #333;
 }
 
-button:active {
+button.primary:active {
   transform: scale(0.98);
   background-color: #333;
 }
