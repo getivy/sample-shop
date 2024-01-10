@@ -7,7 +7,7 @@ const agnostic_cart = require('../data/agnostic-cart.json')
 const bits_cart = require('../data/bits-cart.json')
 const { getCartPrice } = require('../utils/getCartPrice')
 
-const InternalRoute = (_, res, next) => {
+const onlyInternalEnv = (_, res, next) => {
   if (config.IS_INTERNAL === true) {
     next()
     return
@@ -16,7 +16,7 @@ const InternalRoute = (_, res, next) => {
   return res.status(404).send('Not found')
 }
 
-router.get('/all-buttons', InternalRoute, (_, res) => {
+router.get('/all-buttons', onlyInternalEnv, (_, res) => {
   res.render('shop-with-all-buttons', {
     title: 'Ivy Demo Store',
     items: cart.items,
@@ -26,7 +26,7 @@ router.get('/all-buttons', InternalRoute, (_, res) => {
   })
 })
 
-router.get('/', InternalRoute, (_, res) => {
+router.get('/', onlyInternalEnv, (_, res) => {
   res.render('shop', {
     title: 'Ivy Demo Store',
     items: cart.items,
@@ -36,7 +36,7 @@ router.get('/', InternalRoute, (_, res) => {
   })
 })
 
-router.get('/iframe', InternalRoute, (_, res) => {
+router.get('/iframe', onlyInternalEnv, (_, res) => {
   res.render('iframe-view', {
     title: 'Ivy Demo Store',
     items: cart.items,
@@ -46,7 +46,7 @@ router.get('/iframe', InternalRoute, (_, res) => {
   })
 })
 
-router.get('/pay-by-link', InternalRoute, (_, res) => {
+router.get('/pay-by-link', onlyInternalEnv, (_, res) => {
   res.render('pay-by-link', {
     title: 'Pay by link',
     items: cart.items,
@@ -77,7 +77,8 @@ router.get('/callback/error', (_, res) => {
 router.post('/checkout', async (req, res) => {
   const cartPrice = getCartPrice(cart)
   const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
-  const randomMail = 'test+' + generateReferenceId + '@getivy.de'
+
+  const randomMail = 'test+' + generateReferenceId + +'@getivy.de'
 
   const reqData = Object.keys(req.body).length > 0 ? req.body : req.query
 
@@ -194,7 +195,7 @@ router.post('/checkout', async (req, res) => {
   }
 })
 
-router.get('/qr-checkout', InternalRoute, async (_, res) => {
+router.get('/qr-checkout', onlyInternalEnv, async (_, res) => {
   res.render('shop-bits-cap-new', {
     title: 'Bits x Ivy Store',
     item: bits_cart,
@@ -203,25 +204,25 @@ router.get('/qr-checkout', InternalRoute, async (_, res) => {
   })
 })
 
-router.get('/sold-out', InternalRoute, (_, res) => {
+router.get('/sold-out', onlyInternalEnv, (_, res) => {
   res.render('shop-bits-sold-out', {
     title: 'Bits Ivy Store',
   })
 })
 
-router.get('/bits-success', InternalRoute, (_, res) => {
+router.get('/bits-success', onlyInternalEnv, (_, res) => {
   res.render('shop-bits-success', {
     title: 'Bits Ivy Store',
   })
 })
 
-router.get('/bits-failure', InternalRoute, (_, res) => {
+router.get('/bits-failure', onlyInternalEnv, (_, res) => {
   res.render('shop-bits-failure', {
     title: 'Bits Ivy Store',
   })
 })
 
-router.get('/klarna', InternalRoute, (_, res) => {
+router.get('/klarna', onlyInternalEnv, (_, res) => {
   res.render('klarna', {
     title: 'Ivy Demo Store',
     cdnUrl: config.IVY_CDN_URL,
@@ -229,7 +230,7 @@ router.get('/klarna', InternalRoute, (_, res) => {
   })
 })
 
-router.get('/klarna1', InternalRoute, (_, res) => {
+router.get('/klarna1', onlyInternalEnv, (_, res) => {
   res.render('klarna1', {
     title: 'Ivy Demo Store',
     cdnUrl: config.IVY_CDN_URL,
@@ -237,7 +238,7 @@ router.get('/klarna1', InternalRoute, (_, res) => {
   })
 })
 
-router.get('/klarna2', InternalRoute, (_, res) => {
+router.get('/klarna2', onlyInternalEnv, (_, res) => {
   res.render('klarna2', {
     title: 'Ivy Demo Store',
     cdnUrl: config.IVY_CDN_URL,
@@ -245,7 +246,7 @@ router.get('/klarna2', InternalRoute, (_, res) => {
   })
 })
 
-router.get('/klarna/success', InternalRoute, (_, res) => {
+router.get('/klarna/success', onlyInternalEnv, (_, res) => {
   res.render('klarna-success', {
     title: 'Ivy Demo Store',
     cdnUrl: config.IVY_CDN_URL,
@@ -253,7 +254,7 @@ router.get('/klarna/success', InternalRoute, (_, res) => {
   })
 })
 
-router.get('/klarna1/success', InternalRoute, (_, res) => {
+router.get('/klarna1/success', onlyInternalEnv, (_, res) => {
   res.render('klarna-success', {
     title: 'Ivy Demo Store',
     cdnUrl: config.IVY_CDN_URL,
@@ -261,7 +262,7 @@ router.get('/klarna1/success', InternalRoute, (_, res) => {
   })
 })
 
-router.get('/dynamic', InternalRoute, (_, res) => {
+router.get('/dynamic', onlyInternalEnv, (_, res) => {
   res.render('dynamic', {
     title: 'Ivy Demo Store',
     items: cart.items,
@@ -281,7 +282,7 @@ router.get('/agnostic', (_, res) => {
   })
 })
 
-router.get('/ais', InternalRoute, (_, res) => {
+router.get('/ais', onlyInternalEnv, (_, res) => {
   res.render('ais', {
     title: 'Ivy Demo AIS Page',
     cdnUrl: config.IVY_CDN_URL,
@@ -289,7 +290,7 @@ router.get('/ais', InternalRoute, (_, res) => {
   })
 })
 
-router.get('/custom', InternalRoute, (req, res) => {
+router.get('/custom', onlyInternalEnv, (req, res) => {
   const appId = req.app.get('customApiKey')?.split('.')[0]
 
   res.render('custom', {
@@ -303,7 +304,7 @@ router.get('/custom', InternalRoute, (req, res) => {
   })
 })
 
-router.post('/ais', InternalRoute, async (req, res) => {
+router.post('/ais', onlyInternalEnv, async (req, res) => {
   const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
 
   const reqData = Object.keys(req.body).length > 0 ? req.body : req.query
@@ -358,7 +359,7 @@ router.post('/ais', InternalRoute, async (req, res) => {
   res.json(session)
 })
 
-router.post('/checkout-bits', InternalRoute, async (_, res) => {
+router.post('/checkout-bits', onlyInternalEnv, async (_, res) => {
   const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
 
   try {
