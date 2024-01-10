@@ -53,7 +53,23 @@ button {
   padding: 12px;
   min-width: 160px;
   font-family: 'Work Sans', sans-serif;
-  font-size: 14px;
+  font-weight: 600;
+  font-size: 15px;
+  border-width: 0px;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: #333;
+}
+
+button:active {
+  transform: scale(0.98);
+  background-color: #333;
+}
+
+select:hover {
+  cursor: pointer;
 }
 
 @media (max-width: 840px) {
@@ -77,4 +93,19 @@ button {
   #image {
     display: none;
   }
+}
+
+#spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #121315;
+  border-radius: 50%;
+  border-top: 2px solid #FFFFFF;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
