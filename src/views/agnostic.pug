@@ -22,7 +22,7 @@ block content
         const data = Object.fromEntries(form.entries())
 
         const request_data = {
-          currency: 'EUR',
+          currency: data.market === 'GB' ? 'GBP' : 'EUR',
           amount: !{total},
           incentiveMode: 'white_label',
           origin: window.location.origin,
