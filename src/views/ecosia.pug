@@ -1,0 +1,87 @@
+extends _partials/layout
+
+block scripts
+  script(src=cdnUrl + "/button.js")
+
+block content
+  link(rel="stylesheet", href="/ecosia.css")
+  div.mt-10(style="display: flex; align-items: center; justify-content: center;")
+    div#content
+      h1.text-3xl.font-medium.mb-3 Payment Initiation - Donate 1€ to Ecosia
+      h1.text-xl.font-light.mb-6(style='color: #717171;') This is a demo transaction. Use real credentials to verify your payment of 1€ and donate to Ecosia. We will only access your account once and won't store your data.
+
+      script.
+        function checkout(event) { 
+          // Show spinner and hide button text
+          document.getElementById('spinner').style.display = 'inline-block';
+          document.querySelector('#checkout button span').style.display = 'none';
+
+          const form = new FormData(document.getElementById("myForm"))
+          const data = Object.fromEntries(form.entries())
+
+          const request_data = {
+            currency: data.market === 'GB' ? 'GBP' : 'EUR',
+            amount: !{total},
+            incentiveMode: 'white_label',
+            guest: true,
+            origin: window.location.origin,
+            shop: '!{shop}',
+            ...data
+          }
+
+          console.log("the form data before sending it:", request_data)
+          fetch(`/checkout`,
+          { method: 'POST', headers: {"Content-Type": "application/json"}, body: JSON.stringify(request_data) })
+          .then(response => response.json())
+          .then(data => {
+            startIvyCheckout(data.url)
+          })
+          .finally(() => {
+            // Hide spinner and show button text
+            document.getElementById('spinner').style.display = 'none';
+            document.querySelector('#checkout button span').style.display = 'inline';
+          })
+        }
+      
+      div
+        form#myForm
+          div#responsive-form
+            div.flex.flex-col#market
+              label Market          
+              select(name='market' data-testid="market")
+                option(value='DE' selected="selected") Germany
+                option(value='AT') Austria
+                option(value='BE') Belgium
+                option(value='DK') Denmark
+                option(value='EE') Estonia
+                option(value='ES') Spain
+                option(value='FI') Finland
+                option(value='FR') France
+                option(value='GB') United Kingdom
+                option(value='IE') Ireland
+                option(value='IT') Italy
+                option(value='LT') Lithuania
+                option(value='LV') Latvia
+                option(value='NL') Netherlands
+                option(value='NO') Norway
+                option(value='PL') Poland
+                option(value='PT') Portugal
+                option(value='SE') Sweden
+            div.flex.flex-col#locale
+              label Language   
+              select(name='locale' data-testid="language")
+                option(value='en' selected="selected") English
+                option(value='de') German
+                option(value='nl') Dutch
+                option(value='fr') French
+                option(value='es') Spanish
+                option(value='it') Italian
+                option(value='pt') Portuguese
+                option(value='sv') Swedish    
+            div#checkout
+              button.primary(type="button" onClick="checkout()" data-testid="checkout-button") 
+                span Try now
+                div#spinner(style="display: none;")
+
+    div#image
+      img(src="/ecosia.png")

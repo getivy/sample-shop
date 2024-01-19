@@ -1,0 +1,31 @@
+{
+  "reference": "WIQN128SKDC22",
+  "items": [
+    {
+      "name": "20 Bits",
+      "amount": 1,
+      "price_net": 0.3,
+      "price_vat": 0.06,
+      "price_total": 0.36,
+      "image": "/category.svg"
+    },
+    {
+      "name": "10 Bits",
+      "amount": 1,
+      "price_net": 0.2,
+      "price_vat": 0.04,
+      "price_total": 0.24,
+      "image": "/category.svg"
+    },
+    {
+      "name": "100 Bits",
+      "amount": 1,
+      "price_net": 0.5,
+      "price_vat": 0.1,
+      "price_total": 0.6,
+      "image": "/category.svg"
+    }
+  ],
+  "shipping": 0,
+  "subTotal": 1.2
+}

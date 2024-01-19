@@ -4,4 +4,6 @@ module.exports = {
   IVY_CDN_URL: process.env.IVY_CDN_URL,
   IVY_API_URL: process.env.IVY_API_URL,
   IVY_WEBHOOK_SIGNING_SECRET: process.env.IVY_WEBHOOK_SIGNING_SECRET,
+  INSTANT_REFUND: process.env.INSTANT_REFUND === 'true',
+  IS_INTERNAL: process.env.IS_INTERNAL === 'true',
 }

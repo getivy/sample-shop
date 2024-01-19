@@ -6,16 +6,15 @@ block scripts
 block content
   each item in items
     .p-4.flex.flex-nowrap.items-center
-      p.font-medium.mr-4 !{item.amount}x
+      p.font-medium.mr-12 !{item.amount}x
       img(src=item.image).w-20.h-20.object-cover.rounded.drop-shadow-lg
-      p.font-medium.mx-4.grow !{item.name}
-      p.font-medium.mx-4.w-20 !{item.price_total} €
+      p.font-medium.mx-12.grow !{item.name}
+      p.font-medium.mx-4.w-20 !{item.price_total.toFixed(2)} €
 
   hr.mb-4
   .p-4.flex.flex-col.justify-end.items-end.column
-    p.mx-4.mb-2 Subtotal !{subTotal} € 
-    p.mx-4.mb-2 Shipping !{shipping} €
-    p.font-medium.mx-4.mb-6 Total !{total} € 
+    p.mx-4.mb-2 Subtotal !{subtotal.toFixed(2)} € 
+    p.font-medium.mx-4.mb-6 Total !{total.toFixed(2)} € 
 
     script.
       function checkout(event) { 
@@ -23,7 +22,9 @@ block content
         const data = Object.fromEntries(form.entries())
 
         const request_data = {
+          currency: data.market === 'GB' ? 'GBP' : 'EUR',
           amount: !{total},
+          incentiveMode: 'white_label',
           origin: window.location.origin,
           shop: '!{shop}',
           ...data
@@ -39,6 +40,8 @@ block content
        }
     div
       form#myForm
-        include _partials/dynamic-form
+        include _partials/agnostic-form
     div
-      span Version: !{version}    
+      p.font-medium Every test payment will be donated to Ecosia.
+    div
+      p Version: !{version}    

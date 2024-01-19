@@ -1,0 +1,89 @@
+#image {
+  max-width: 25%; /* Adjust as needed */
+  height: auto;
+  margin-left: 60px;
+}
+
+#image img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover; /* This will ensure that the image maintains its aspect ratio */
+}
+#responsive-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+#market, #locale, #checkout {
+  flex: 1;
+  min-width: 160px;
+}
+
+#market {
+  margin-right: 12px;
+  margin-left: 0;
+}
+
+#locale {
+  margin-right: 12px;
+  margin-left: 12px;
+}
+
+#checkout {
+  margin-right: 0;
+  margin-left: 12px;
+}
+
+label {
+  color: #717171;
+  margin-bottom: 4px;
+}
+
+select {
+  border-radius: 8px;
+  border-color: #C7C7C7;
+}
+
+select:hover {
+  cursor: pointer;
+}
+
+@media (max-width: 840px) {
+  div {
+    flex-direction: column;
+  }
+
+  #market, #locale, #checkout {
+    min-width: 100%;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  button.primary {
+    margin-top: 30px;
+    min-width: 100%;
+  }
+
+  #image {
+    display: none;
+  }
+}
+
+#spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #121315;
+  border-radius: 50%;
+  border-top: 2px solid #FFFFFF;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

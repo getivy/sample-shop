@@ -1,0 +1,15 @@
+{
+  "reference": "WIQN128SKDC22",
+  "items": [
+    {
+      "name": "1€ Donation",
+      "amount": 1,
+      "price_net": 1,
+      "price_vat": 0,
+      "price_total": 1,
+      "image": "/ecosia.png"
+    }
+  ],
+  "shipping": 0,
+  "subTotal": 1
+}

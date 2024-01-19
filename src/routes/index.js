@@ -3,51 +3,276 @@ const axios = require('axios')
 const router = express.Router()
 const config = require('../config')
 const cart = require('../data/cart.json')
+const agnostic_cart = require('../data/agnostic-cart.json')
+const ecosia_cart = require('../data/ecosia-cart.json')
 const bits_cart = require('../data/bits-cart.json')
 const { getCartPrice } = require('../utils/getCartPrice')
 
-router.get('/all-buttons', (req, res) => {
-  res.render('shop-with-all-buttons', {
-    title: 'Ivy Demo Store',
-    items: cart.items,
-    ...getCartPrice(cart),
-    cdnUrl: config.IVY_CDN_URL,
-    version: process.env.npm_package_version,
+// --- Internal facing routes ---
+if (config.IS_INTERNAL) {
+  router.get('/all-buttons', (_, res) => {
+    res.render('shop-with-all-buttons', {
+      title: 'Ivy Demo Store',
+      items: cart.items,
+      ...getCartPrice(cart),
+      cdnUrl: config.IVY_CDN_URL,
+      version: process.env.npm_package_version,
+    })
   })
-})
 
-router.get('/', (req, res) => {
-  res.render('shop', {
-    title: 'Ivy Demo Store',
-    items: cart.items,
-    ...getCartPrice(cart),
-    cdnUrl: config.IVY_CDN_URL,
-    version: process.env.npm_package_version,
+  router.get('/', (_, res) => {
+    res.render('shop', {
+      title: 'Ivy Demo Store',
+      items: cart.items,
+      ...getCartPrice(cart),
+      cdnUrl: config.IVY_CDN_URL,
+      version: process.env.npm_package_version,
+    })
   })
-})
 
-router.get('/iframe', (req, res) => {
-  res.render('iframe-view', {
-    title: 'Ivy Demo Store',
-    items: cart.items,
-    ...getCartPrice(cart),
-    cdnUrl: config.IVY_CDN_URL,
-    version: process.env.npm_package_version,
+  router.get('/iframe', (_, res) => {
+    res.render('iframe-view', {
+      title: 'Ivy Demo Store',
+      items: cart.items,
+      ...getCartPrice(cart),
+      cdnUrl: config.IVY_CDN_URL,
+      version: process.env.npm_package_version,
+    })
   })
-})
 
-router.get('/pay-by-link', (req, res) => {
-  res.render('pay-by-link', {
-    title: 'Pay by link',
-    items: cart.items,
-    ...getCartPrice(cart),
-    cdnUrl: config.IVY_CDN_URL,
-    version: process.env.npm_package_version,
+  router.get('/pay-by-link', (_, res) => {
+    res.render('pay-by-link', {
+      title: 'Pay by link',
+      items: cart.items,
+      ...getCartPrice(cart),
+      cdnUrl: config.IVY_CDN_URL,
+      version: process.env.npm_package_version,
+    })
   })
-})
+
+  router.get('/qr-checkout', async (_, res) => {
+    res.render('shop-bits-cap-new', {
+      title: 'Bits x Ivy Store',
+      item: bits_cart,
+      cdnUrl: config.IVY_CDN_URL,
+      version: process.env.npm_package_version,
+    })
+  })
+
+  router.get('/sold-out', (_, res) => {
+    res.render('shop-bits-sold-out', {
+      title: 'Bits Ivy Store',
+    })
+  })
+
+  router.get('/bits-success', (_, res) => {
+    res.render('shop-bits-success', {
+      title: 'Bits Ivy Store',
+    })
+  })
+
+  router.get('/bits-failure', (_, res) => {
+    res.render('shop-bits-failure', {
+      title: 'Bits Ivy Store',
+    })
+  })
+
+  router.get('/klarna', (_, res) => {
+    res.render('klarna', {
+      title: 'Ivy Demo Store',
+      cdnUrl: config.IVY_CDN_URL,
+      version: process.env.npm_package_version,
+    })
+  })
+
+  router.get('/klarna1', (_, res) => {
+    res.render('klarna1', {
+      title: 'Ivy Demo Store',
+      cdnUrl: config.IVY_CDN_URL,
+      version: process.env.npm_package_version,
+    })
+  })
+
+  router.get('/klarna2', (_, res) => {
+    res.render('klarna2', {
+      title: 'Ivy Demo Store',
+      cdnUrl: config.IVY_CDN_URL,
+      version: process.env.npm_package_version,
+    })
+  })
+
+  router.get('/klarna/success', (_, res) => {
+    res.render('klarna-success', {
+      title: 'Ivy Demo Store',
+      cdnUrl: config.IVY_CDN_URL,
+      version: process.env.npm_package_version,
+    })
+  })
+
+  router.get('/klarna1/success', (_, res) => {
+    res.render('klarna-success', {
+      title: 'Ivy Demo Store',
+      cdnUrl: config.IVY_CDN_URL,
+      version: process.env.npm_package_version,
+    })
+  })
+
+  router.get('/dynamic', (_, res) => {
+    res.render('dynamic', {
+      title: 'Dynamic',
+      shop: 'dynamic',
+      items: cart.items,
+      ...getCartPrice(cart),
+      cdnUrl: config.IVY_CDN_URL,
+      version: process.env.npm_package_version,
+    })
+  })
+
+  router.get('/ais', (_, res) => {
+    res.render('ais', {
+      title: 'Ivy Demo AIS Page',
+      cdnUrl: config.IVY_CDN_URL,
+      version: process.env.npm_package_version,
+    })
+  })
+
+  router.get('/custom', (req, res) => {
+    const appId = req.app.get('customApiKey')?.split('.')[0]
+
+    res.render('custom', {
+      title: 'Shop: ' + appId,
+      apiKey: req.app.get('customApiKey'),
+      webhookSigningSecret: req.app.get('customWebhookSigningSecret'),
+      items: cart.items,
+      ...getCartPrice(cart),
+      cdnUrl: config.IVY_CDN_URL,
+      version: process.env.npm_package_version,
+    })
+  })
+
+  router.post('/ais', async (req, res) => {
+    const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
+
+    const reqData = Object.keys(req.body).length > 0 ? req.body : req.query
+    const data = {
+      referenceId: generateReferenceId,
+      prefill: {
+        email: reqData.email === 'true' ? randomMail : '',
+        bankId: reqData.bank,
+      },
+      shop: {
+        websiteUrl: 'https://www.getivy.io',
+        name: "Ivy's Demo Store",
+      },
+      ...(reqData.permissions === 'match_identity' && {
+        matchData: {
+          financialAddress: {
+            type: 'iban',
+            iban: {
+              accountHolderName: 'Hans Peter',
+              bic: '123',
+              iban: '123',
+            },
+          },
+        },
+      }),
+      ...(reqData.locale ? { locale: reqData.locale } : {}),
+      permissions: [reqData.permissions],
+      successCallbackUrl: reqData.origin + '/callback/success?shop=ais',
+      errorCallbackUrl: reqData.origin + '/callback/error?shop=ais',
+      resultCallbackUrl: reqData.resultCallbackUrl || reqData.origin + '/callback/data',
+      market: req.market || 'DE',
+      metadata: {
+        test: 1,
+      },
+    }
+
+    console.log('create data session with:', data)
+
+    const { data: session } = await axios
+      .post(`${config.IVY_API_URL}/service/data/session/create`, data, {
+        headers: {
+          'X-Ivy-Api-Key': config.IVY_API_KEY,
+        },
+      })
+      .catch(err => {
+        console.log(err)
+        console.error(err.response.data)
+        return res.status(400).send(err.response.data.message)
+      })
+
+    console.log('session:', session)
+    res.json(session)
+  })
+
+  router.post('/checkout-bits', async (_, res) => {
+    const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
+
+    try {
+      const data = {
+        referenceId: generateReferenceId,
+        category: '5999',
+        price: {
+          totalNet: bits_cart.price_net,
+          vat: bits_cart.price_vat,
+          shipping: 0,
+          total: bits_cart.price_total,
+          currency: 'EUR',
+        },
+        lineItems: [
+          {
+            name: bits_cart.name,
+            singleNet: bits_cart.price_net,
+            singleVat: bits_cart.price_vat,
+            amount: bits_cart.amount,
+            image: bits_cart.image,
+            quantity: bits_cart.quantity,
+          },
+        ],
+        billingAddress: {
+          country: 'DE',
+          line1: 'Bits & Pretzels',
+          zipCode: '80469',
+          city: 'München',
+        },
+        metadata: {
+          event: 'bits',
+        },
+      }
+
+      const { data: response } = await axios.post(
+        `${config.IVY_API_URL}/service/checkout/session/create`,
+        data,
+        {
+          headers: {
+            'X-Ivy-Api-Key': config.IVY_API_KEY,
+          },
+        }
+      )
+      console.log(response.bitsSoldOut)
+
+      if (response.bitsSoldOut !== undefined) {
+        res.json({
+          soldOut: true,
+        })
+      } else {
+        res.json({
+          soldOut: false,
+          url: response.redirectUrl,
+        })
+      }
+    } catch (err) {
+      console.error(err.response.data)
+      res.status(400).send(err.response.data.message)
+    }
+  })
+}
+
+// --- External facing routes ---
 
 router.get('/callback/success', (req, res) => {
   // TODO get order details
+  const shop = req.query.shop
 
   res.render('success', {
     title: 'Order Confirmation - Success',
@@ -55,19 +280,24 @@ router.get('/callback/success', (req, res) => {
     // shippingAddress: TODO
     // billingAddress: TODO
     // billingAddress: TODO
+    shop,
   })
 })
 
 router.get('/callback/error', (req, res) => {
+  const shop = req.query.shop
+
   res.render('error', {
     title: 'Order Failed',
+    shop,
   })
 })
 
 router.post('/checkout', async (req, res) => {
   const cartPrice = getCartPrice(cart)
   const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
-  const randomMail = 'test+' + generateReferenceId + '@getivy.de'
+
+  const randomMail = 'test+' + generateReferenceId + +'@getivy.de'
 
   const reqData = Object.keys(req.body).length > 0 ? req.body : req.query
 
@@ -150,12 +380,14 @@ router.post('/checkout', async (req, res) => {
         phone: Boolean(reqData.phoneRequired),
       },
       incentiveMode: reqData.incentiveMode,
-      ...(reqData.origin &&
-        reqData.successCallbackUrl && {
-          successCallbackUrl: reqData.successCallbackUrl
-            ? reqData.origin + reqData.successCallbackUrl
-            : reqData.origin + '/callback/success',
-        }),
+      ...(reqData.origin && {
+        successCallbackUrl: reqData.successCallbackUrl
+          ? reqData.origin + reqData.successCallbackUrl
+          : reqData.origin + '/callback/success?shop=' + reqData.shop,
+        errorCallbackUrl: reqData.errorCallbackUrl
+          ? reqData.origin + reqData.errorCallbackUrl
+          : reqData.origin + '/callback/error?shop=' + reqData.shop,
+      }),
     }
 
     console.log('begin request')
@@ -184,220 +416,27 @@ router.post('/checkout', async (req, res) => {
   }
 })
 
-router.get('/qr-checkout', async (req, res) => {
-  res.render('shop-bits-cap-new', {
-    title: 'Bits x Ivy Store',
-    item: bits_cart,
+router.get('/agnostic', (_, res) => {
+  res.render('agnostic', {
+    title: 'Agnostic',
+    shop: 'agnostic',
+    items: agnostic_cart.items,
+    ...getCartPrice(agnostic_cart),
     cdnUrl: config.IVY_CDN_URL,
     version: process.env.npm_package_version,
   })
 })
 
-router.get('/sold-out', (req, res) => {
-  res.render('shop-bits-sold-out', {
-    title: 'Bits Ivy Store',
-  })
-})
-
-router.get('/bits-success', (req, res) => {
-  res.render('shop-bits-success', {
-    title: 'Bits Ivy Store',
-  })
-})
-
-router.get('/bits-failure', (req, res) => {
-  res.render('shop-bits-failure', {
-    title: 'Bits Ivy Store',
-  })
-})
-
-router.get('/klarna', (req, res) => {
-  res.render('klarna', {
-    title: 'Ivy Demo Store',
+router.get('/ecosia', (_, res) => {
+  res.render('ecosia', {
+    title: 'Ecosia',
+    hideTitle: true,
+    shop: 'ecosia',
+    items: ecosia_cart.items,
+    ...getCartPrice(ecosia_cart),
     cdnUrl: config.IVY_CDN_URL,
     version: process.env.npm_package_version,
   })
-})
-
-router.get('/klarna1', (req, res) => {
-  res.render('klarna1', {
-    title: 'Ivy Demo Store',
-    cdnUrl: config.IVY_CDN_URL,
-    version: process.env.npm_package_version,
-  })
-})
-
-router.get('/klarna2', (req, res) => {
-  res.render('klarna2', {
-    title: 'Ivy Demo Store',
-    cdnUrl: config.IVY_CDN_URL,
-    version: process.env.npm_package_version,
-  })
-})
-
-router.get('/klarna/success', (req, res) => {
-  res.render('klarna-success', {
-    title: 'Ivy Demo Store',
-    cdnUrl: config.IVY_CDN_URL,
-    version: process.env.npm_package_version,
-  })
-})
-
-router.get('/klarna1/success', (req, res) => {
-  res.render('klarna-success', {
-    title: 'Ivy Demo Store',
-    cdnUrl: config.IVY_CDN_URL,
-    version: process.env.npm_package_version,
-  })
-})
-
-router.get('/dynamic', (req, res) => {
-  res.render('dynamic', {
-    title: 'Ivy Demo Store',
-    items: cart.items,
-    ...getCartPrice(cart),
-    cdnUrl: config.IVY_CDN_URL,
-    version: process.env.npm_package_version,
-  })
-})
-
-router.get('/ais', (req, res) => {
-  res.render('ais', {
-    title: 'Ivy Demo AIS Page',
-    cdnUrl: config.IVY_CDN_URL,
-    version: process.env.npm_package_version,
-  })
-})
-
-router.get('/custom', (req, res) => {
-  const appId = req.app.get('customApiKey')?.split('.')[0]
-
-  res.render('custom', {
-    title: 'Shop: ' + appId,
-    apiKey: req.app.get('customApiKey'),
-    webhookSigningSecret: req.app.get('customWebhookSigningSecret'),
-    items: cart.items,
-    ...getCartPrice(cart),
-    cdnUrl: config.IVY_CDN_URL,
-    version: process.env.npm_package_version,
-  })
-})
-
-router.post('/ais', async (req, res) => {
-  const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
-
-  const reqData = Object.keys(req.body).length > 0 ? req.body : req.query
-  const data = {
-    referenceId: generateReferenceId,
-    prefill: {
-      email: reqData.email === 'true' ? randomMail : '',
-      bankId: reqData.bank,
-    },
-    shop: {
-      websiteUrl: 'https://www.getivy.io',
-      name: "Ivy's Demo Store",
-    },
-    ...(reqData.permissions === 'match_identity' && {
-      matchData: {
-        financialAddress: {
-          type: 'iban',
-          iban: {
-            accountHolderName: 'Hans Peter',
-            bic: '123',
-            iban: '123',
-          },
-        },
-      },
-    }),
-    ...(reqData.locale ? { locale: reqData.locale } : {}),
-    permissions: [reqData.permissions],
-    successCallbackUrl: reqData.origin + '/callback/success',
-    errorCallbackUrl: reqData.origin + '/callback/error',
-    resultCallbackUrl: reqData.resultCallbackUrl || reqData.origin + '/callback/data',
-    market: req.market || 'DE',
-    metadata: {
-      test: 1,
-    },
-  }
-
-  console.log('create data session with:', data)
-
-  const { data: session } = await axios
-    .post(`${config.IVY_API_URL}/service/data/session/create`, data, {
-      headers: {
-        'X-Ivy-Api-Key': config.IVY_API_KEY,
-      },
-    })
-    .catch(err => {
-      console.log(err)
-      console.error(err.response.data)
-      return res.status(400).send(err.response.data.message)
-    })
-
-  console.log('session:', session)
-  res.json(session)
-})
-
-router.post('/checkout-bits', async (req, res) => {
-  const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
-
-  try {
-    const data = {
-      referenceId: generateReferenceId,
-      category: '5999',
-      price: {
-        totalNet: bits_cart.price_net,
-        vat: bits_cart.price_vat,
-        shipping: 0,
-        total: bits_cart.price_total,
-        currency: 'EUR',
-      },
-      lineItems: [
-        {
-          name: bits_cart.name,
-          singleNet: bits_cart.price_net,
-          singleVat: bits_cart.price_vat,
-          amount: bits_cart.amount,
-          image: bits_cart.image,
-          quantity: bits_cart.quantity,
-        },
-      ],
-      billingAddress: {
-        country: 'DE',
-        line1: 'Bits & Pretzels',
-        zipCode: '80469',
-        city: 'München',
-      },
-      metadata: {
-        event: 'bits',
-      },
-    }
-
-    const { data: response } = await axios.post(
-      `${config.IVY_API_URL}/service/checkout/session/create`,
-      data,
-      {
-        headers: {
-          'X-Ivy-Api-Key': config.IVY_API_KEY,
-        },
-      }
-    )
-    console.log(response.bitsSoldOut)
-
-    if (response.bitsSoldOut !== undefined) {
-      res.json({
-        soldOut: true,
-      })
-    } else {
-      res.json({
-        soldOut: false,
-        url: response.redirectUrl,
-      })
-    }
-  } catch (err) {
-    console.error(err.response.data)
-    res.status(400).send(err.response.data.message)
-  }
 })
 
 module.exports = router
