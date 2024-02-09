@@ -315,8 +315,8 @@ router.post('/checkout', async (req, res) => {
         ? {
             type: 'iban',
             iban: {
-              iban: 'DE84100101234535423376',
-              accountHolderName: 'Ivy GmbH',
+              iban: 'FR7629833000010000003989057',
+              accountHolderName: 'CARRY PRODUCTS GMBH',
             },
           }
         : {
