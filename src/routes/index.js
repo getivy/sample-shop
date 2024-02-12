@@ -293,7 +293,6 @@ router.get('/callback/error', (req, res) => {
   })
 })
 
-// Checkout handler
 router.post('/checkout', async (req, res) => {
   const cartPrice = getCartPrice(cart)
   const generateReferenceId = (Math.random().toString(36) + '00000000000000000').slice(2, 13)
