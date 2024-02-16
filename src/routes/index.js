@@ -338,7 +338,7 @@ router.post('/checkout', async (req, res) => {
       ...(Boolean(reqData.paymentMandateReference) && {
         mandate: {
           setup: true,
-          reference: reqData.paymentMandateReference,
+          referenceId: reqData.paymentMandateReference,
           userNotificationEmail: randomMail,
         },
       }),
