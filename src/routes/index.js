@@ -333,9 +333,15 @@ router.post('/checkout', async (req, res) => {
       verificationToken: 'TEST',
       plugin: reqData.plugin,
       express: reqData.express,
-      setupPaymentMandate: Boolean(reqData.setupPaymentMandate),
       handshake: reqData.handshake,
       guest: reqData.guest,
+      ...(Boolean(reqData.paymentMandateReference) && {
+        mandate: {
+          setup: true,
+          reference: reqData.paymentMandateReference,
+          userNotificationEmail: randomMail,
+        },
+      }),
       ...(reqData.direct && {
         paymentMode: 'direct',
         settlementDestination: {
