@@ -339,6 +339,7 @@ router.post('/checkout', async (req, res) => {
         mandate: {
           setup: true,
           referenceId: reqData.paymentMandateReference,
+          accountHolderName: reqData.mandateAccountHolderName,
           userNotificationEmail: randomMail,
         },
       }),
